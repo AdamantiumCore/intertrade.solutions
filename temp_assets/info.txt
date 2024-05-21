@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Karla-Regular
+font link: https://fonts.google.com/specimen/Karla
+font author: Jonny Pinhorn
+font author site: https://twitter.com/jonpinhorn_type
+Slogan Font: OFLGoudyStMTT.ttf
+
+icon designer: Alfredo @ IconsAlfredo.us
+icon designer link: /AlfredoCreates
+        
+{"bg":"#EBF0F2","icon-gradient-0":"#3E6E81","icon-gradient-1":"#4587A1","font":"#14242A","slogan":"#28383e"}
+      
