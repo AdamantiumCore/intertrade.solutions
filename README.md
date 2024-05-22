@@ -3,6 +3,9 @@
 # Closed Collaborative Project
 intertrade.solutions is an international storefront e-commerce site project
 
+## Tech Stack
+React-TS, Node.js, MySQL, Prisma, SASS
+
 ## Installation
 Clone project
 ```
