@@ -1,0 +1,23 @@
+@import "./responsive.scss";
+@import "./base.scss";
+
+.layout {
+    background-color: map-get($color, secondary);
+    color: map-get($color, tertiary);
+    height: 100vh;
+    padding: 0 1rem;
+
+    @extend %fullSpace;
+
+    @include lg {
+        background-color: blue;
+    }
+
+    @include md {
+        background-color: green;
+    }
+
+    @include sm {
+        background-color: red;
+    }
+}

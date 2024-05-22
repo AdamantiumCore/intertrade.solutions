@@ -1,0 +1,31 @@
+// add theme value lists
+
+// $font-family: (
+
+// );
+
+$font-size: (
+    xs: 8pt,
+    sm: 9pt,
+    reg: 10pt,
+    lg: 12pt,
+    xl: 14pt,
+);
+
+$font-weight: (
+    thin: 100,
+    normal: 300,
+    thick: 600,
+    bold: bold,
+);
+
+$color: (
+    primary: #4586A0,
+    secondary: #EBF0F2,
+    tertiary: #353535,
+);
+
+%fullSpace {
+    width: 100%;
+    height: 100%;
+}
