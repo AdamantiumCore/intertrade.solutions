@@ -1,7 +1,7 @@
 ![alt text](https://github.com/AdamantiumCore/intertrade.solutions/blob/master/temp_assets/InterTrade_Logo.png?raw=true)
 
 # Closed Collaborative Project
-intertrade.solutions is an international storefront e-commerce site
+intertrade.solutions is an international storefront e-commerce site project
 
 ## Installation
 Clone project
