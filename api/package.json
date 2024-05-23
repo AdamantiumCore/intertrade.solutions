@@ -10,7 +10,10 @@
     "docker:start": "docker-compose -f docker-compose.dev.yml up -d",
     "docker:stop": "docker-compose -f docker-compose.dev.yml down -v",
     "docker:echo": "docker-compose -f docker-compose.dev.yml ps",
-    "infa:all": "npm run docker:stop && npm run docker:start && npm run prisma:generate && npm run prisma:db:push && npm run seed:db"
+    "prisma:generate": "npx prisma generate",
+    "prisma:db:push": "npx prisma db push",
+    "prisma:studio": "npx prisma studio",
+    "prisma:playground": "nodemon prisma/playground.js"
   },
   "keywords": [],
   "author": "",
