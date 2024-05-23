@@ -4,17 +4,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: intertrade
-      MYSQL_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - 3377:3377
-  mysql-workbench:
-    image: lscr.io/linuxserver/mysql-workbench:latest
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-    ports:
-      - 3000:3000
-      - 3001:3001
-    cap_add:
-      - IPC_LOCK
+      - 3377:3306
