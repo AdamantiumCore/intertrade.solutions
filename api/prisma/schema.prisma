@@ -12,8 +12,18 @@ datasource db {
   provider = "mysql"
   url = env("DATABASE_URL")
 }
-model User{
-  id Int @id @default(autoincrement())
-  firstName String
-  email String @unique
+model Users{
+  id String @id @default(uuid()) @unique
+  firstName String @db.VarChar(50)
+  lastName String @db.VarChar(50)
+  middle String? @db.VarChar(50)
+  avatar String? @db.VarChar(500)
+  addressID String @default(uuid())
+  phone String? @db.VarChar(20)
+  email String @db.VarChar(255) @unique
+  username String @db.VarChar(255) @unique
+  password String @db.VarChar(255)
+  version Int
+  created DateTime @default(now())
+  modified DateTime @updatedAt
 }
