@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import prisma from "../lib/prisma.js";
+import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   //db operations
   const {
@@ -44,7 +45,7 @@ export const register = async (req, res) => {
       zipcode,
     },
   });
-  const newUser = await prisma.users.create({
+    await prisma.users.create({
     data: {
       firstName,
       lastName,
@@ -57,10 +58,45 @@ export const register = async (req, res) => {
       password: hashedPassword,
     },
   });
+  res.status(200).json({message: "Register Successful!"});
 };
-export const login = (req, res) => {
+export const login = async (req, res) => {
   //db operations
+  const { username, password } = req.body;
+
+  try{
+
+    const user = await prisma.users.findUnique({
+      where: {username}
+    })
+
+    if(!user){
+      return res.status(401).json({message: "Invalid Credentials!"})
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    if(!isPasswordValid){
+      return res.status(401).json({message: "Invalid Credentials!"});
+    }
+    //generate cookie token
+
+    const age = 1000 * 60 * 60 * 24 * 7; // expires after 7 days
+
+    const token = jwt.sign({
+      id: user.id
+    }, process.env.JWT_SECRET_KEY, //create variable
+    { expiresIn: age })
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: age,
+      // secure: true, IN PRODUCTION MODE FOR SURE
+    }).status(200).json({message: "Login Successful!"})
+  }
+  catch(err){
+    return res.status(500).json({message: "Failed to login!"});
+  }
+  //check if the user exists
 };
 export const logout = (req, res) => {
-  //db operations
+  res.clearCookie("token").status(200).json({message: "logout Successful!"})
 };
