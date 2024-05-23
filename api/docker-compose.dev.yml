@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: intertrade
+      MYSQL_PASSWORD: root
+    ports:
+      - 3377:3377
+  mysql-workbench:
+    image: lscr.io/linuxserver/mysql-workbench:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    ports:
+      - 3000:3000
+      - 3001:3001
+    cap_add:
+      - IPC_LOCK
