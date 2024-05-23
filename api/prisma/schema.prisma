@@ -1,281 +1,263 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
-model Users{
-  id String @id @default(uuid()) @unique
-  firstName String @db.VarChar(50)
-  lastName String @db.VarChar(50)
-  middle String? @db.VarChar(50)
-  avatar String? @db.VarChar(500)
-  addressID String @default(uuid()) @unique
-  address Addresses @relation(fields: [addressID], references: [id])
-  phone String? @db.VarChar(20)
-  email String @db.VarChar(255) @unique
-  username String @db.VarChar(255) @unique
-  password String @db.VarChar(255)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  wishlists Wishlists?
-  orders Orders?
-  comments Users_Comments[]//many-to-many
+model Users {
+  id         String             @id @default(uuid()) @unique
+  firstName  String             @db.VarChar(50)
+  lastName   String             @db.VarChar(50)
+  middle     String?            @db.VarChar(50)
+  avatar     String?            @db.VarChar(500)
+  addressID  String             @default(uuid()) @unique
+  address    Addresses          @relation(fields: [addressID], references: [id])
+  phone      String?            @db.VarChar(20)
+  email      String             @db.VarChar(255) @unique
+  username   String             @db.VarChar(255) @unique
+  password   String             @db.VarChar(255)
+  created    DateTime           @default(now())
+  modified   DateTime           @updatedAt
+  wishlists  Wishlists?
+  orders     Orders?
+  comments   Users_Comments[] // many-to-many
   user_roles Users_User_Roles[]
-  stores Stores_Users[]
-  ratings Users_Ratings[]
+  stores     Stores_Users[]
+  ratings    Users_Ratings[]
 }
-model User_Roles{
-  id String @id @default(uuid()) @unique
-  name String @db.VarChar(125)
-  description String? @db.VarChar(8000)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  users Users_User_Roles[]
+model User_Roles {
+  id          String             @id @default(uuid()) @unique
+  name        String             @db.VarChar(125)
+  description String?            @db.VarChar(8000)
+  created     DateTime           @default(now())
+  modified    DateTime           @updatedAt
+  users       Users_User_Roles[]
 }
 model Addresses {
-  id String @id @default(uuid()) @unique
-  address String @db.VarChar(500)
-  city String @db.VarChar(250)
-  state_province String @db.VarChar(250)
-  zipcode String @db.VarChar(15)
-  country String @db.VarChar(150)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  stores Stores? //relations
-  user Users?
+  id             String   @id @default(uuid()) @unique
+  address        String   @db.VarChar(500)
+  city           String   @db.VarChar(250)
+  state_province String   @db.VarChar(250)
+  zipcode        String   @db.VarChar(15)
+  country        String   @db.VarChar(150)
+  created        DateTime @default(now())
+  modified       DateTime @updatedAt
+  stores         Stores? // relations
+  user           Users?
 }
 model Stores {
-  id String @id @default(uuid()) @unique
-  name String @db.VarChar(500) @unique  
-  address Addresses @relation(fields: [addressId], references: [id])//relation
-  addressId String @default(uuid()) @unique
-  logo String? @db.VarChar(500)
-  tagline String? @db.VarChar(500)
-  description String? @db.VarChar(8000)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  products Products[]
-  comments Stores_Comments[]
-  users Stores_Users[]
-  ratings Stores_Ratings[]
+  id          String            @id @default(uuid()) @unique
+  name        String            @db.VarChar(500) @unique
+  address     Addresses         @relation(fields: [addressId], references: [id]) // relation
+  addressId   String            @default(uuid()) @unique
+  logo        String?           @db.VarChar(500)
+  tagline     String?           @db.VarChar(500)
+  description String?           @db.VarChar(8000)
+  created     DateTime          @default(now())
+  modified    DateTime          @updatedAt
+  products    Products[]
+  comments    Stores_Comments[]
+  users       Stores_Users[]
+  ratings     Stores_Ratings[]
 }
 model Products {
-  id String @id @default(uuid()) @unique
-  name String @db.VarChar(250)
-  description String? @db.VarChar(8000)  
-  price Decimal
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  storeId String @default(uuid()) 
-  store Stores @relation(fields: [storeId], references: [id])//relation
-  product_images Product_Images[]
+  id                String                @id @default(uuid()) @unique
+  name              String                @db.VarChar(250)
+  description       String?               @db.VarChar(8000)
+  price             Decimal
+  created           DateTime              @default(now())
+  modified          DateTime              @updatedAt
+  storeId           String                @default(uuid())
+  store             Stores                @relation(fields: [storeId], references: [id]) // relation
+  product_images    Product_Images[]
   product_discounts Product_Discounts[]
-  comments Products_Comments[]
-  categories Products_Categories[]
-  wishlists Wishlists_Products[]
-  orders Orders_Products[]
-  ratings Products_Ratings[]
+  comments          Products_Comments[]
+  categories        Products_Categories[]
+  wishlists         Wishlists_Products[]
+  orders            Orders_Products[]
+  ratings           Products_Ratings[]
 }
 model Categories {
-  id String @id @default(uuid()) @unique
-  name String @db.VarChar(500) @unique
-  description String @db.VarChar(8000)  
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  parentId String @default(uuid())
-  products Products_Categories[]
+  id          String                @id @default(uuid()) @unique
+  name        String                @db.VarChar(500) @unique
+  description String                @db.VarChar(8000)
+  created     DateTime              @default(now())
+  modified    DateTime              @updatedAt
+  parentId    String                @default(uuid())
+  products    Products_Categories[]
 }
 model Product_Images {
-  id String @id @default(uuid()) @unique
-  folderName String @db.VarChar(1000)
-  fileName String @db.VarChar(500)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  productId String @default(uuid())
-  product Products @relation(fields: [productId], references: [id])//relation
+  id         String   @id @default(uuid()) @unique
+  folderName String   @db.VarChar(1000)
+  fileName   String   @db.VarChar(500)
+  created    DateTime @default(now())
+  modified   DateTime @updatedAt
+  productId  String   @default(uuid())
+  product    Products @relation(fields: [productId], references: [id]) // relation
 }
 model Product_Discounts {
-  id String @id @default(uuid()) @unique
-  code String @db.VarChar(100)
+  id               String   @id @default(uuid()) @unique
+  code             String   @db.VarChar(100)
   percent_discount Float
-  productId String @default(uuid())//relation
-  product Products @relation(fields: [productId], references: [id])
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
+  productId        String   @default(uuid()) // relation
+  product          Products @relation(fields: [productId], references: [id])
+  created          DateTime @default(now())
+  modified         DateTime @updatedAt
 }
 model Wishlists {
-  id String @id @default(uuid()) @unique
-  userId String @default(uuid()) @unique
-  user Users @relation(fields: [userId], references: [id])
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
+  id       String               @id @default(uuid()) @unique
+  userId   String               @default(uuid()) @unique
+  user     Users                @relation(fields: [userId], references: [id])
+  created  DateTime             @default(now())
+  modified DateTime             @updatedAt
   products Wishlists_Products[]
 }
 model Orders {
-  id String @id @default(uuid()) @unique
-  userId String @default(uuid()) @unique
-  user Users @relation(fields: [userId], references: [id])
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
+  id            String                 @id @default(uuid()) @unique
+  userId        String                 @default(uuid()) @unique
+  user          Users                  @relation(fields: [userId], references: [id])
+  created       DateTime               @default(now())
+  modified      DateTime               @updatedAt
   order_details Orders_Order_Details[]
-  products Orders_Products[]
+  products      Orders_Products[]
 }
 model Order_Details {
-  id String @id @default(uuid()) @unique
-  detailKey String @db.VarChar(255)
-  detailValue String @db.VarChar(8000)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  orders Orders_Order_Details[]
+  id          String                 @id @default(uuid()) @unique
+  detailKey   String                 @db.VarChar(255)
+  detailValue String                 @db.VarChar(8000)
+  created     DateTime               @default(now())
+  modified    DateTime               @updatedAt
+  orders      Orders_Order_Details[]
 }
 
 model Ratings {
-  id String @id @default(uuid()) @unique
-  type String
-  rating Float @default(0)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  users Users_Ratings[]
-  stores Stores_Ratings[]
+  id       String             @id @default(uuid()) @unique
+  type     String
+  rating   Float              @default(0)
+  created  DateTime           @default(now())
+  modified DateTime           @updatedAt
+  users    Users_Ratings[]
+  stores   Stores_Ratings[]
   products Products_Ratings[]
 }
 
 model Comments {
-  id String @id @default(uuid()) @unique
-  type String
-  parentId String @default(uuid())
-  fkId String @default(uuid())
-  comment String @db.VarChar(8000)
-  version Int @default(0)
-  created DateTime @default(now())
-  modified DateTime @updatedAt
-  users Users_Comments[]
-  stores Stores_Comments[]
+  id       String              @id @default(uuid()) @unique
+  type     String
+  parentId String              @default(uuid())
+  fkId     String              @default(uuid())
+  comment  String              @db.VarChar(8000)
+  created  DateTime            @default(now())
+  modified DateTime            @updatedAt
+  users    Users_Comments[]
+  stores   Stores_Comments[]
   products Products_Comments[]
 }
-//many-to-many relations
+
+// many-to-many relations
 model Orders_Order_Details {
-  orders Orders @relation(fields: [orders_id], references: [id])
-  orders_id String @default(uuid())
-  order_details Order_Details @relation(fields: [order_details_id], references: [id])
-  order_details_id String @default(uuid())
+  orders           Orders        @relation(fields: [orders_id], references: [id])
+  orders_id        String        @default(uuid())
+  order_details    Order_Details @relation(fields: [order_details_id], references: [id])
+  order_details_id String        @default(uuid())
 
   @@id([orders_id, order_details_id])
 }
 
 model Users_Comments {
-  users Users @relation(fields: [users_id], references: [id])
-  users_id String @default(uuid())
-  comments Comments @relation(fields: [comments_id], references: [id])
-  comments_id String @default(uuid())
+  users       Users    @relation(fields: [users_id], references: [id])
+  users_id    String   @default(uuid())
+  comments    Comments @relation(fields: [comments_id], references: [id])
+  comments_id String   @default(uuid())
 
   @@id([users_id, comments_id])
 }
 
 model Stores_Comments {
-  stores Stores @relation(fields: [stores_id], references: [id])
-  stores_id String @default(uuid())
-  comments Comments @relation(fields: [comments_id], references: [id])
-  comments_id String @default(uuid())
+  stores      Stores   @relation(fields: [stores_id], references: [id])
+  stores_id   String   @default(uuid())
+  comments    Comments @relation(fields: [comments_id], references: [id])
+  comments_id String   @default(uuid())
 
   @@id([stores_id, comments_id])
 }
 
 model Products_Comments {
-  products Products @relation(fields: [products_id], references: [id])
-  products_id String @default(uuid())
-  comments Comments @relation(fields: [comments_id], references: [id])
-  comments_id String @default(uuid())
+  products    Products @relation(fields: [products_id], references: [id])
+  products_id String   @default(uuid())
+  comments    Comments @relation(fields: [comments_id], references: [id])
+  comments_id String   @default(uuid())
 
   @@id([products_id, comments_id])
 }
 
 model Users_User_Roles {
-  users Users @relation(fields: [users_id], references: [id])
-  users_id String @default(uuid())
-  user_roles User_Roles @relation(fields: [user_roles_id], references: [id])
-  user_roles_id String @default(uuid())
+  users         Users      @relation(fields: [users_id], references: [id])
+  users_id      String     @default(uuid())
+  user_roles    User_Roles @relation(fields: [user_roles_id], references: [id])
+  user_roles_id String     @default(uuid())
 
   @@id([users_id, user_roles_id])
 }
 
 model Stores_Users {
-  stores Stores @relation(fields: [stores_id], references: [id])
+  stores    Stores @relation(fields: [stores_id], references: [id])
   stores_id String @default(uuid())
-  users Users @relation(fields: [users_id], references: [id])
-  users_id String @default(uuid())
-  
+  users     Users  @relation(fields: [users_id], references: [id])
+  users_id  String @default(uuid())
+
   @@id([stores_id, users_id])
 }
 
 model Users_Ratings {
-  users Users @relation(fields: [users_id], references: [id])
-  users_id String @default(uuid())
-  ratings Ratings @relation(fields: [ratings_id], references: [id])
-  ratings_id String @default(uuid())
-  
+  users      Users   @relation(fields: [users_id], references: [id])
+  users_id   String  @default(uuid())
+  ratings    Ratings @relation(fields: [ratings_id], references: [id])
+  ratings_id String  @default(uuid())
+
   @@id([users_id, ratings_id])
 }
 
 model Products_Categories {
-  products Products @relation(fields: [products_id], references: [id])
-  products_id String @default(uuid())
-  categories Categories @relation(fields: [categories_id], references: [id])
-  categories_id String @default(uuid())
-  
+  products      Products   @relation(fields: [products_id], references: [id])
+  products_id   String     @default(uuid())
+  categories    Categories @relation(fields: [categories_id], references: [id])
+  categories_id String     @default(uuid())
+
   @@id([products_id, categories_id])
 }
 model Wishlists_Products {
-  wishlists Wishlists @relation(fields: [wishlists_id], references: [id])
-  wishlists_id String @default(uuid())
-  products Products @relation(fields: [products_id], references: [id])
-  products_id String @default(uuid())
-  
+  wishlists    Wishlists @relation(fields: [wishlists_id], references: [id])
+  wishlists_id String    @default(uuid())
+  products     Products  @relation(fields: [products_id], references: [id])
+  products_id  String    @default(uuid())
+
   @@id([wishlists_id, products_id])
 }
 
 model Orders_Products {
-  orders Orders @relation(fields: [orders_id], references: [id])
-  orders_id String @default(uuid())
-  products Products @relation(fields: [products_id], references: [id])
-  products_id String @default(uuid())
-  
+  orders      Orders   @relation(fields: [orders_id], references: [id])
+  orders_id   String   @default(uuid())
+  products    Products @relation(fields: [products_id], references: [id])
+  products_id String   @default(uuid())
+
   @@id([orders_id, products_id])
 }
 model Stores_Ratings {
-  stores Stores @relation(fields: [stores_id], references: [id])
-  stores_id String @default(uuid())
-  ratings Ratings @relation(fields: [ratings_id], references: [id])
-  ratings_id String @default(uuid())
-  
+  stores     Stores  @relation(fields: [stores_id], references: [id])
+  stores_id  String  @default(uuid())
+  ratings    Ratings @relation(fields: [ratings_id], references: [id])
+  ratings_id String  @default(uuid())
+
   @@id([stores_id, ratings_id])
 }
 model Products_Ratings {
-  products Products @relation(fields: [products_id], references: [id])
-  products_id String @default(uuid())
-  ratings Ratings @relation(fields: [ratings_id], references: [id])
-  ratings_id String @default(uuid())
-  
+  products    Products @relation(fields: [products_id], references: [id])
+  products_id String   @default(uuid())
+  ratings     Ratings  @relation(fields: [ratings_id], references: [id])
+  ratings_id  String   @default(uuid())
+
   @@id([products_id, ratings_id])
 }
