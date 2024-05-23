@@ -7,3 +7,5 @@ Set Up database:
 3.Create connection in mysql workbench and log in with your user(root) and password
 4.Then open terminal in vsCode with directory "\api" and type "npx prisma migrate dev"
 5.Use prisma to add data to database and get data!
+
+To Start Node.js Server you can use "npm run dev"
