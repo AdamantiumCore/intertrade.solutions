@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import prisma from "../lib/prisma.js";
+import prisma from "../prisma/prisma.js";
 import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   //db operations
@@ -83,7 +83,8 @@ export const login = async (req, res) => {
     const age = 1000 * 60 * 60 * 24 * 7; // expires after 7 days
 
     const token = jwt.sign({
-      id: user.id
+      id: user.id,
+      isAdmin: false, //when we add user authentication
     }, process.env.JWT_SECRET_KEY, //create variable
     { expiresIn: age })
     res.cookie("token", token, {
