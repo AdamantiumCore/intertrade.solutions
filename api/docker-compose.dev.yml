@@ -7,4 +7,4 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - 3377:3306
+      - ${DATABASE_PORT}:3306
