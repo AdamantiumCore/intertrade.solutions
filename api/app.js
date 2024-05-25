@@ -12,6 +12,6 @@ app.use(cookieParser())
 app.use("/api/v1/auth", authRoute)
 app.use("/api/v1/test", testRoute)
 
-app.use(globalErrorHandler)
+app.use(globalErrorHandler())
 
 app.listen(8800)
