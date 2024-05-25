@@ -1,10 +1,11 @@
 import {ProblemDetails, Violation} from "../types/problemDetails.js";
 import {Validation} from "../errors/validation.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
+import { Exists } from "../errors/Exists.js";
 
 export const globalErrorHandler = () => {
   return (err, req, res, _next) => {
-    console.error('Error caught in global error handler', err)
+    console.log('Error caught in global error handler')
 
     if (err instanceof Validation) {
       return res.status(400).json(validationErrorHandler(err))
@@ -18,7 +19,14 @@ export const globalErrorHandler = () => {
         detail: err.message
       }));
     }
-
+    if(err instanceof Exists){
+      return res.status(409).json(new ProblemDetails({
+        type: 'api/register-exists',
+        title: 'Exists',
+        status: 409,
+        detail: err.message
+      }));
+    }
     return res.status(500).json(new ProblemDetails({
       type: 'api/internal-server-error',
       title: 'Internal Server Error',
