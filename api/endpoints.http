@@ -1,3 +1,5 @@
+                      LOGIN
+--------------------------------------------------------
 ### /login - Valid request
 POST http://localhost:8800/api/v1/auth/login
 Content-Type: application/json
@@ -31,4 +33,59 @@ Content-Type: application/json
 {
   "username": "  ",
   "password": "  "
+}
+              REGISTER
+-----------------------------------------------
+### /register - Valid request
+POST http://localhost:8800/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "password",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "middleName": "MiddleName",
+  "avatar": "avatar.png/jpg",
+  "address": "address",
+  "city": "city",
+  "country": "country",
+  "state_province": "state_province",
+  "zipcode": "zipcode",
+  "phone": "phone",
+  "email": "email",
+}
+
+### /register - invalid request body (missing required fields)
+POST http://localhost:8800/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "password": "password",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "middleName": "MiddleName",
+  "avatar": "avatar.png/jpg",
+  "address": "address",
+}
+
+### /register - invalid request body (empty spaced for fields)
+POST http://localhost:8800/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "middleName": "MiddleName",
+  "avatar": "",
+  "address": " ",
+}
+
+### /register - invalid empty fields
+POST http://localhost:8800/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "  ",
+  "password": "  "
+  "avatar": "",
+  "address": " ",
 }
