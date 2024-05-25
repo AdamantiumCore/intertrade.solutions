@@ -62,8 +62,8 @@ export const register = async (req, res) => {
   res.status(200).json({message: "Register Successful!"});
 };
 
-export const login = async (req, res) => {
-  const token = await userLogin(req, res);
+export const login = async (req, res, next) => {
+  const token = await userLogin(req, res, next);
   return res.cookie("token", token, {httpOnly: true}).status(200)
 };
 

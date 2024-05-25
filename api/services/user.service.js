@@ -3,7 +3,7 @@ import {ProblemDetails} from "../types/problemDetails.js";
 import {comparePassword} from "../utilities/password-utils.js";
 import {generateToken} from "../utilities/jwt-utils.js";
 
-export const login = async (req, res) => {
+export const login = async (req, res, _next) => {
   const {username, password} = req.body;
   const user = await findUserByUsername(username);
 
