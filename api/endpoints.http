@@ -1,0 +1,34 @@
+### /login - Valid request
+POST http://localhost:8800/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "password"
+}
+
+### /login - invalid request body (missing required field username)
+POST http://localhost:8800/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "password": "password"
+}
+
+### /login - invalid request body (empty spaced for username)
+POST http://localhost:8800/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "  ",
+  "password": "password"
+}
+
+### /login - invalid request password and username are empty spaced
+POST http://localhost:8800/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "  ",
+  "password": "  "
+}
