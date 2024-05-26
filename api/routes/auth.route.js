@@ -5,7 +5,7 @@ import {loginValidation, registerValidation} from "./validation/auth.validation.
 
 const router = express.Router();
 
-router.post("/register",...registerValidation, withValidationHandler(register))
+router.post("/register", ...registerValidation, withValidationHandler(register))
 router.post("/login", ...loginValidation, withValidationHandler(login))
 router.post("/logout", logout)
 

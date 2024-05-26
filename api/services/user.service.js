@@ -1,10 +1,9 @@
 import * as userRepository from "../repositories/user.repository.js";
 import * as addressService from "../services/address.service.js";
-import { comparePassword } from "../utilities/password-utils.js";
-import { generateToken } from "../utilities/jwt-utils.js";
-import { Unauthorized } from "../errors/Unauthorized.js";
-import { hashPassword } from "../utilities/password-utils.js";
-import { Exists } from "../errors/Exists.js";
+import {comparePassword, hashPassword} from "../utilities/password-utils.js";
+import {generateToken} from "../utilities/jwt-utils.js";
+import {Unauthorized} from "../errors/Unauthorized.js";
+import {Exists} from "../errors/Exists.js";
 
 export const login = async (req, res, next) => {
   const { username, password } = req.body;
@@ -19,7 +18,8 @@ export const login = async (req, res, next) => {
     return next(new Unauthorized("Invalid Credentials"));
   }
 
-  return await generateToken({ sub: user.id });
+  const token = await generateToken({ sub: user.id });
+  return res.cookie("token", token, {httpOnly: true}).status(200)
 };
 
 export const register = async (req, res, next) => {
@@ -36,8 +36,7 @@ export const register = async (req, res, next) => {
     lastName,
     middleName,
     avatar,
-    phone,
-    
+    phone
   } = req.body;
 
   const isUserEmailAlreadyExist = await userRepository.findUserByEmail(email);
@@ -52,7 +51,6 @@ export const register = async (req, res, next) => {
     zipcode,
   };
 
-  
   if (isUserEmailAlreadyExist) {
     if (isUserUsernameAlreadyExist) {
       return next(new Exists("This username and email already exists!"));
@@ -62,6 +60,7 @@ export const register = async (req, res, next) => {
   if (isUserUsernameAlreadyExist) {
     return next(new Exists("This username already exists!"));
   }
+
   const hashedPassword = await hashPassword(password, 10);
   const newAddress = await addressService.addAddress(addressData);
   const userData = {
@@ -76,4 +75,6 @@ export const register = async (req, res, next) => {
       password: hashedPassword,
     };
   await userRepository.addUser(userData);
+
+  return res.status(201)
 };

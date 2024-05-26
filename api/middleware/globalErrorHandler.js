@@ -5,7 +5,7 @@ import { Exists } from "../errors/Exists.js";
 
 export const globalErrorHandler = () => {
   return (err, req, res, _next) => {
-    console.log('Error caught in global error handler')
+    console.log('Error caught in global error handler', err)
 
     if (err instanceof Validation) {
       return res.status(400).json(validationErrorHandler(err))
@@ -19,6 +19,7 @@ export const globalErrorHandler = () => {
         detail: err.message
       }));
     }
+
     if(err instanceof Exists){
       return res.status(409).json(new ProblemDetails({
         type: 'api/register-exists',
@@ -27,6 +28,7 @@ export const globalErrorHandler = () => {
         detail: err.message
       }));
     }
+
     return res.status(500).json(new ProblemDetails({
       type: 'api/internal-server-error',
       title: 'Internal Server Error',
