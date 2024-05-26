@@ -1,18 +1,18 @@
 import {ProblemDetails, Violation} from "../types/problemDetails.js";
 import {Validation} from "../errors/validation.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
-import { Conflict } from "../errors/Conflict.js";
+import {Conflict} from "../errors/Conflict.js";
 
 export const globalErrorHandler = () => {
   return (err, req, res, _next) => {
     console.log('Error caught in global error handler', err)
 
     if (err instanceof Validation) {
-      return res.status(400).json(validationErrorHandler(err))
+      return buildErrorResponse(res, validationErrorHandler(err))
     }
 
     if (err instanceof Unauthorized) {
-      return res.status(401).json(new ProblemDetails({
+      return buildErrorResponse(res, new ProblemDetails({
         type: 'api/sign-in-unauthorized',
         title: 'Unauthorized',
         status: 401,
@@ -20,8 +20,8 @@ export const globalErrorHandler = () => {
       }));
     }
 
-    if(err instanceof Conflict){
-      return res.status(409).json(new ProblemDetails({
+    if (err instanceof Conflict) {
+      return buildErrorResponse(res, new ProblemDetails({
         type: err.type,
         title: 'Conflict',
         status: 409,
@@ -29,12 +29,12 @@ export const globalErrorHandler = () => {
       }));
     }
 
-    return res.status(500).json(new ProblemDetails({
+    return buildErrorResponse(res, new ProblemDetails({
       type: 'api/internal-server-error',
       title: 'Internal Server Error',
       detail: 'Something broke!',
       status: 500
-    }));
+    }))
   }
 }
 
@@ -53,4 +53,10 @@ const validationErrorHandler = (error) => {
     status: 400,
     violations
   })
+}
+
+const buildErrorResponse = (res, problemDetails) => {
+  return res.set('Content-Type', 'application/problem+json')
+    .status(problemDetails.status)
+    .json(problemDetails)
 }
