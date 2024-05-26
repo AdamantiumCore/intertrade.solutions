@@ -1,7 +1,7 @@
 import {ProblemDetails, Violation} from "../types/problemDetails.js";
 import {Validation} from "../errors/validation.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
-import { Exists } from "../errors/Exists.js";
+import { Conflict } from "../errors/Conflict.js";
 
 export const globalErrorHandler = () => {
   return (err, req, res, _next) => {
@@ -20,10 +20,10 @@ export const globalErrorHandler = () => {
       }));
     }
 
-    if(err instanceof Exists){
+    if(err instanceof Conflict){
       return res.status(409).json(new ProblemDetails({
-        type: 'api/register-exists',
-        title: 'Exists',
+        type: err.type,
+        title: 'Conflict',
         status: 409,
         detail: err.message
       }));

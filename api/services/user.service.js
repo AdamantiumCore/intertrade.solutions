@@ -3,7 +3,7 @@ import * as addressService from "../services/address.service.js";
 import {comparePassword, hashPassword} from "../utilities/password-utils.js";
 import {generateToken} from "../utilities/jwt-utils.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
-import {Exists} from "../errors/Exists.js";
+import {Conflict} from "../errors/Conflict.js";
 
 export const login = async (req, res, next) => {
   const { username, password } = req.body;
@@ -53,12 +53,12 @@ export const register = async (req, res, next) => {
 
   if (isUserEmailAlreadyExist) {
     if (isUserUsernameAlreadyExist) {
-      return next(new Exists("This username and email already exists!"));
+      return next(new Conflict("This username and email already exists!"));
     }
-    return next(new Exists("This email already exists!"));
+    return next(Conflict.emailAlreadyExists());
   }
   if (isUserUsernameAlreadyExist) {
-    return next(new Exists("This username already exists!"));
+    return next(Conflict.usernameAlreadyExists());
   }
 
   const hashedPassword = await hashPassword(password, 10);
