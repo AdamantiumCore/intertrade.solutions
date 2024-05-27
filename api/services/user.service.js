@@ -1,6 +1,8 @@
 import { Conflict } from "../errors/Conflict.js";
 import { UnexpectedError } from "../errors/UnexpectedError.js";
+import { hashPassword } from "../utilities/password-utils.js";
 import * as userRepository from "../repositories/user.repository.js"
+import * as addressService from "../services/address.service.js";
 export const getUsers = async (res, next) => {
     var allUsers = null;
     try{
@@ -27,24 +29,21 @@ export const getUser = async (req, res, next) => {
 }
 export const updateUser = async (req, res, next) => {
     const userId = req.params.id;
-    
-    
     const {
-        firstName,
-        lastName,
-        middleName,
-        avatar,
+        email,
+        username,
+        password,
         address,
         city,
         country,
         state_province,
         zipcode,
-        phone,
-        email,
-        username,
-        password, 
+        firstName,
+        lastName,
+        middleName,
+        avatar,
+        phone
       } = req.body;
-      const userForUpdate = {firstName, lastName, middleName, avatar, address, city, country, state_province, zipcode,phone, email, username, password};
     var updatedUser = null;
     try{
         const user = await userRepository.findUserById(userId);
@@ -62,14 +61,31 @@ export const updateUser = async (req, res, next) => {
             return next(Conflict.emailAlreadyExists());
           }
           if (isUserUsernameAlreadyExist) {
-            return next(Conflict.usernameAlreadyExists());
+                return next(Conflict.usernameAlreadyExists());
           }
         }
+        var hashedPassword = password;
+        if(user.password !== password){
+            hashedPassword = await hashPassword(password, 10);
+        }
         
-        updatedUser = await userRepository.updateUser(userForUpdate, userId);
+        const addressId = await addressService.getAddressIdByName(address);
+        const userData = {
+            firstName,
+            lastName,
+            middle: middleName,
+            avatar,
+            addressID: addressId,
+            phone,
+            email,
+            username,
+            password: hashedPassword,
+          };
+        //TODO update address information before updating the user!!!
+        updatedUser = await userRepository.updateUser(userData, userId);
     }
     catch{
-        
+        return next(new UnexpectedError());
     }
     
     res.status(200).json(updatedUser);

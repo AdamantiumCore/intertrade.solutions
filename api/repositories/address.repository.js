@@ -6,3 +6,12 @@ export const addAddress = async (data) => {
     })
     return address;
 }
+export const getAddressIdByName = async (addressName) => {
+    const address = await prisma.addresses.findFirst({
+        where: {address: addressName},
+        select: {
+            id: true
+        }
+    })
+    return address?.id;
+}
