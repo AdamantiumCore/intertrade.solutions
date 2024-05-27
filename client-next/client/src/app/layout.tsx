@@ -11,7 +11,7 @@ const afacad = Afacad({
 const lexend = Lexend({
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  variable: "--font-cabin",
+  variable: "--font-lexend",
 });
 const instrumentSans = Instrument_Sans({
   subsets: ["latin", "latin-ext"],
