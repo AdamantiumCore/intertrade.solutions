@@ -16,10 +16,10 @@ function InterTradeLogo<T extends SVGProps<SVGSVGElement>>({ className }: T) {
 					y2='834'
 					gradientTransform='translate(2631.22 -781.46)'
 					gradientUnits='userSpaceOnUse'>
-					<stop offset='.23' stop-color='#36d4ca' />
-					<stop offset='.4' stop-color='#4ea6d2' />
-					<stop offset='.62' stop-color='#6c6ddc' />
-					<stop offset='.73' stop-color='#7857e0' />
+					<stop offset='.23' stopColor='#36d4ca' />
+					<stop offset='.4' stopColor='#4ea6d2' />
+					<stop offset='.62' stopColor='#6c6ddc' />
+					<stop offset='.73' stopColor='#7857e0' />
 				</linearGradient>
 			</defs>
 			<g id='Layer_1-2'>
