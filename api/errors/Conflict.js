@@ -15,4 +15,10 @@ export class Conflict extends ApplicationError {
   static emailAlreadyExists() {
     return new Conflict("This email already exists!", Conflict.TYPE_EMAIL_ALREADY_EXISTS);
   }
+  static invalidUser() {
+    return new Conflict("Invalid user!");
+  }
+  static incorrectUser() {
+    return new Conflict("Incorrect user!");
+  }
 }

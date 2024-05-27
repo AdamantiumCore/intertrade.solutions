@@ -7,19 +7,19 @@ import {Conflict} from "../errors/Conflict.js";
 
 export const login = async (req, res, next) => {
   const { username, password } = req.body;
-  const user = await userRepository.findUserByUsername(username);
+  const userId = await userRepository.findUserByUsername(username);
 
-  if (!user) {
+  if (!userId) {
     return next(new Unauthorized("Invalid Credentials"));
   }
-
-  const isPasswordValid = await comparePassword(password, user.password);
+  const user = await userRepository.findUserById(userId);
+  const isPasswordValid = comparePassword(password, user.password);
   if (!isPasswordValid) {
     return next(new Unauthorized("Invalid Credentials"));
   }
 
-  const token = await generateToken({ sub: user.id });
-  return res.cookie("token", token, {httpOnly: true}).status(200)
+  const token = await generateToken({ sub: userId });
+  return res.cookie("token", token, {httpOnly: true}).status(200).json({message: "Successful Login!"});
 };
 
 export const register = async (req, res, next) => {
@@ -76,5 +76,5 @@ export const register = async (req, res, next) => {
     };
   await userRepository.addUser(userData);
 
-  return res.status(201)
+  return res.status(201).json({message: "Successful Registered!"});
 };
