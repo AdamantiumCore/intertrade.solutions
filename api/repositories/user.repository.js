@@ -38,9 +38,9 @@ export const updateUser = async (user, id) => {
     data: user
   })
 }
-export const deleteUser = async (user) => {
-  return prisma.users.delete({
-    where: {username: user.username}//can be changed but username is unique so it should work correctly
+export const deleteUser = async (userId) => {
+  await prisma.users.delete({
+    where: {id: userId},//can be changed to username because it is unique so it will work correctly
   })
 }
 //END user crud Operations

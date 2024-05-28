@@ -109,5 +109,18 @@ export const updateUser = async (req, res, next) => {
     res.status(200).json(updatedUser);
 }
 export const deleteUser = async (req, res, next) => {
-    
+    const userId = req.params.id;
+    try{
+        const user = await userRepository.findUserById(userId);
+        if(!user){
+            return next(Conflict.incorrectUser());
+        }
+        var addresId = user.addressID;
+        await userRepository.deleteUser(userId);
+        await addressService.deleteAddress(addresId);
+    }
+    catch{
+        return next(new UnexpectedError());
+    }
+    res.status(200).json({message: "Successfully deleted user!"})
 }

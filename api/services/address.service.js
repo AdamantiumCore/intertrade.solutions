@@ -11,3 +11,6 @@ export const getAddressById = async (addressId) => {
 export const updateAddress = async (addressData, addressId) => {
     return await addressRepository.updateAddress(addressData, addressId);
 }
+export const deleteAddress = async (addressId) => {
+    await addressRepository.deleteAddress(addressId);
+}

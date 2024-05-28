@@ -26,3 +26,8 @@ export const updateAddress = async (addressData, addressId) => {
         data: addressData,
     })
 }
+export const deleteAddress = async (addresId) => {
+    await prisma.addresses.delete({
+        where: {id: addresId}
+    })
+}
