@@ -1,10 +1,15 @@
-![alt text](https://github.com/AdamantiumCore/intertrade.solutions/blob/master/temp_assets/InterTrade_Logo.png?raw=true)
+<figure>
+    <img src="client/public/svg/intertrade-wordmark.svg"
+         alt="InterTrade Logo"
+         width="600">
+</figure>  
+<br />  
 
 # Closed Collaborative Project
 intertrade.solutions is an international storefront e-commerce site project
 
 ## Tech Stack
-React-TS, Node.js, MySQL, Prisma, SASS
+React-TS, NextJS, Node.js, MySQL, Prisma, TailwindCSS, SASS
 
 ## Installation
 Clone project
