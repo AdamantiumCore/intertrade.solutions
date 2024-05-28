@@ -24,8 +24,7 @@ export const findUserByEmail = async (email) => {
 }
 //user crud Operations
 export const getAllUsers = async () => {
-  const users = await prisma.users.findMany();
-  return users;
+  return await prisma.users.findMany();
 }
 export const addUser = async (user) => {
   return await prisma.users.create({
