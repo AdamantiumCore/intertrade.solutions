@@ -113,9 +113,12 @@ export const deleteUser = async (req, res, next) => {
     try{
         const user = await userRepository.findUserById(userId);
         if(!user){
-            return next(Conflict.incorrectUser());
+            return next(Conflict.invalidUser());
         }
         var addresId = user.addressID;
+        if(!addresId){
+            return next(Conflict.invalidAddress());
+        }
         await userRepository.deleteUser(userId);
         await addressService.deleteAddress(addresId);
     }
