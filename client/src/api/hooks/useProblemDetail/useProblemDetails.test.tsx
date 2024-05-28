@@ -1,6 +1,6 @@
 import {renderHook} from "@testing-library/react";
-import useProblemDetails from "@/api/useProblemDetail/useProblemDetail";
-import {Problem} from "@/api/useProblemDetail/Problem";
+import useProblemDetails from "@/api/hooks/useProblemDetail/useProblemDetail";
+import {Problem} from "@/api/hooks/useProblemDetail/Problem";
 import {createAxiosError} from "@/__test-utilities__";
 
 
