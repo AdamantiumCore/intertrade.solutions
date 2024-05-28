@@ -21,7 +21,7 @@ export const getAddressById = async (addressId) => {
     })
 }
 export const updateAddress = async (addressData, addressId) => {
-    return await prisma.addresses.update({
+    await prisma.addresses.update({
         where: {id: addressId},
         data: addressData,
     })

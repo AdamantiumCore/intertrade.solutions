@@ -28,7 +28,7 @@ export const getAllUsers = async () => {
   return users;
 }
 export const addUser = async (user) => {
-  return prisma.users.create({
+  return await prisma.users.create({
     data: user
   })
 }
