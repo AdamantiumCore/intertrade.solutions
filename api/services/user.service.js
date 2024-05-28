@@ -68,8 +68,26 @@ export const updateUser = async (req, res, next) => {
         if(user.password !== password){
             hashedPassword = await hashPassword(password, 10);
         }
-        
-        const addressId = await addressService.getAddressIdByName(address);
+
+        var addressId = await addressService.getAddressIdByName(address);
+        const addressData = {
+            address,
+            city,
+            country,
+            state_province,
+            zipcode,
+        };
+        if(!addressId){
+            const newAddress = await addressService.addAddress(addressData);
+            addressId = newAddress.id;
+        }
+        else{
+            const oldAddress = await addressService.getAddressById(addressId);
+            //here we prevent database query!
+            if(oldAddress.address !== address || oldAddress.city !== city || oldAddress.country  !== country || oldAddress.state_province !== state_province ||oldAddress.zipcode !== zipcode){
+                const updatedAddress = await addressService.updateAddress(addressData, addressId);
+            }
+        }
         const userData = {
             firstName,
             lastName,

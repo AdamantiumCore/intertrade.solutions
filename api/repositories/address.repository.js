@@ -15,3 +15,14 @@ export const getAddressIdByName = async (addressName) => {
     })
     return address?.id;
 }
+export const getAddressById = async (addressId) => {
+    return await prisma.addresses.findFirst({
+        where: {id: addressId}
+    })
+}
+export const updateAddress = async (addressData, addressId) => {
+    return await prisma.addresses.update({
+        where: {id: addressId},
+        data: addressData,
+    })
+}
