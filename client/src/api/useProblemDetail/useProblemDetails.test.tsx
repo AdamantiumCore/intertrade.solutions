@@ -1,7 +1,8 @@
-import useProblemDetails from "./useProblemDetail.ts";
 import {renderHook} from "@testing-library/react";
-import {createAxiosError} from "../../__test-utilities__";
-import {Problem} from "./Problem.ts";
+import useProblemDetails from "@/api/useProblemDetail/useProblemDetail";
+import {Problem} from "@/api/useProblemDetail/Problem";
+import {createAxiosError} from "@/__test-utilities__";
+
 
 describe('useProblemDetails', () => {
 

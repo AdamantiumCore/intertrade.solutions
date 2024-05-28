@@ -1,7 +1,7 @@
 import {AxiosError} from "axios";
 import {useCallback} from "react";
-import {ProblemDetail} from "./types.ts";
-import {Problem} from "./Problem.ts";
+import {ProblemDetail} from "@/api/useProblemDetail/types";
+import {Problem} from "@/api/useProblemDetail/Problem";
 
 const isAxiosError = (error: unknown): error is AxiosError => {
   return error != null && typeof error === 'object' && 'isAxiosError' in error

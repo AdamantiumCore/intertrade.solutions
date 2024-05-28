@@ -1,1 +1,1 @@
-export * from './createAxiosError.ts'
+export * from './createAxiosError'
