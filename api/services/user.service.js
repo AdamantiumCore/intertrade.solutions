@@ -1,28 +1,32 @@
+import { Conflict } from "../errors/Conflict.js";
+import { UnexpectedError } from "../errors/UnexpectedError.js";
+import { hashPassword } from "../utilities/password-utils.js";
 import * as userRepository from "../repositories/user.repository.js";
 import * as addressService from "../services/address.service.js";
-import {comparePassword, hashPassword} from "../utilities/password-utils.js";
-import {generateToken} from "../utilities/jwt-utils.js";
-import {Unauthorized} from "../errors/Unauthorized.js";
-import {Conflict} from "../errors/Conflict.js";
-
-export const login = async (req, res, next) => {
-  const { username, password } = req.body;
-  const user = await userRepository.findUserByUsername(username);
-
-  if (!user) {
-    return next(new Unauthorized("Invalid Credentials"));
+export const getUsers = async (res, next) => {
+  var allUsers = null;
+  try {
+    allUsers = await userRepository.getAllUsers();
+  } catch (ex) {
+    return next(new UnexpectedError());
   }
-
-  const isPasswordValid = await comparePassword(password, user.password);
-  if (!isPasswordValid) {
-    return next(new Unauthorized("Invalid Credentials"));
-  }
-
-  const token = await generateToken({ sub: user.id });
-  return res.cookie("token", token, {httpOnly: true}).status(200)
+  return res.status(200).json({ users: allUsers });
 };
-
-export const register = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
+  const userId = req.params.id;
+  var user = null;
+  try {
+    user = await userRepository.findUserById(userId);
+    if (user == null) {
+      return next(Conflict.invalidUser());
+    }
+  } catch {
+    return next(new UnexpectedError());
+  }
+  res.status(200).json(user);
+};
+export const updateUser = async (req, res, next) => {
+  const userId = req.params.id;
   const {
     email,
     username,
@@ -36,45 +40,93 @@ export const register = async (req, res, next) => {
     lastName,
     middleName,
     avatar,
-    phone
+    phone,
   } = req.body;
-
-  const isUserEmailAlreadyExist = await userRepository.findUserByEmail(email);
-  const isUserUsernameAlreadyExist = await userRepository.findUserByUsername(
-    username
-  );
-  const addressData = {
-    address,
-    city,
-    country,
-    state_province,
-    zipcode,
-  };
-
-  if (isUserEmailAlreadyExist) {
-    if (isUserUsernameAlreadyExist) {
-      return next(new Conflict("This username and email already exists!"));
+  var updatedUser = null;
+  try {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+      return next(Conflict.invalidUser());
     }
-    return next(Conflict.emailAlreadyExists());
-  }
-  if (isUserUsernameAlreadyExist) {
-    return next(Conflict.usernameAlreadyExists());
-  }
+    if (user.username !== username || user.email !== email) {
+      const isUserEmailAlreadyExist = await userRepository.findUserByEmail(
+        email
+      );
+      const isUserUsernameAlreadyExist =
+        await userRepository.findUserByUsername(username);
+      if (isUserEmailAlreadyExist) {
+        if (isUserUsernameAlreadyExist) {
+          return next(new Conflict("This username and email already exists!"));
+        }
+        return next(Conflict.emailAlreadyExists());
+      }
+      if (isUserUsernameAlreadyExist) {
+        return next(Conflict.usernameAlreadyExists());
+      }
+    }
+    var hashedPassword = password;
+    if (user.password !== password) {
+      hashedPassword = await hashPassword(password, 10);
+    }
 
-  const hashedPassword = await hashPassword(password, 10);
-  const newAddress = await addressService.addAddress(addressData);
-  const userData = {
+    var addressId = await addressService.getAddressIdByName(address);
+    const addressData = {
+      address,
+      city,
+      country,
+      state_province,
+      zipcode,
+    };
+    if (!addressId) {
+      const newAddress = await addressService.addAddress(addressData);
+      addressId = newAddress.id;
+    } else {
+      const oldAddress = await addressService.getAddressById(addressId);
+      //here we prevent database query!
+      if (
+        oldAddress.address !== address ||
+        oldAddress.city !== city ||
+        oldAddress.country !== country ||
+        oldAddress.state_province !== state_province ||
+        oldAddress.zipcode !== zipcode
+      ) {
+        await addressService.updateAddress(addressData, addressId);
+      }
+    }
+    const userData = {
       firstName,
       lastName,
       middle: middleName,
       avatar,
-      addressID: newAddress.id,
+      addressID: addressId,
       phone,
       email,
       username,
       password: hashedPassword,
     };
-  await userRepository.addUser(userData);
+    //TODO update address information before updating the user!!!
+    updatedUser = await userRepository.updateUser(userData, userId);
+  } catch {
+    return next(new UnexpectedError());
+  }
 
-  return res.status(201)
+  res.status(200).json(updatedUser);
+};
+export const deleteUser = async (req, res, next) => {
+  const userId = req.params.id;
+  try {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+      return next(Conflict.invalidUser());
+    }
+    var addresId = user.addressID;
+    if (!addresId) {
+      return next(Conflict.invalidAddress());
+    }
+    await userRepository.deleteUser(userId);
+    await addressService.deleteAddress(addresId);
+  } catch {
+    return next(new UnexpectedError());
+  }
+  res.status(200).json({ message: "Successfully deleted user!" });
 };
