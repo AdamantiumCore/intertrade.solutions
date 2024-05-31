@@ -1,16 +1,25 @@
 "use client";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import axios from "axios";
 type SearchBarProps = {
     placeholder: string,
 }
 export default function SearchBar({ placeholder }: SearchBarProps){
-    const [search, setSearch] = useState("");
+    const [searchedData, setSearchedData] = useState([]);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
     function handleInputChange(e: any) {
-        setSearch(e.target.value);
+        axios.post("http://localhost:8800/api/v1/search/getData", {query: inputRef.current?.value})
+        .then(result => {
+            setSearchedData(result.data);
+        })
+        .catch(err => {
+            console.log(err.message)
+        });
     }
     function getData() {
-        //call BE for the data and pass search state
+        //call BE for the data and pass search state       
     }
     function keyDownHandler(e : any) {
         let key = e.key;
@@ -21,8 +30,8 @@ export default function SearchBar({ placeholder }: SearchBarProps){
     return(
         <>
             <input
+                ref={inputRef}
                 onKeyDown={keyDownHandler}
-                value={search}
                 onChange={handleInputChange}  
                 placeholder={placeholder}
                 className="h-full w-full rounded-full border-[1.5px] border-it-gray-400 pl-5 font-afacad outline-none placeholder:text-it-gray-300 focus:border-it-purple-200"
