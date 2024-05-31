@@ -9,7 +9,7 @@ export default function SearchBar({ placeholder }: SearchBarProps){
     const [searchedData, setSearchedData] = useState([]);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    function handleInputChange(e: any) {
+    function getAutocompleteData() {
         axios.post("http://localhost:8800/api/v1/search/getData", {query: inputRef.current?.value})
         .then(result => {
             setSearchedData(result.data);
@@ -32,7 +32,7 @@ export default function SearchBar({ placeholder }: SearchBarProps){
             <input
                 ref={inputRef}
                 onKeyDown={keyDownHandler}
-                onChange={handleInputChange}  
+                onChange={getAutocompleteData}  
                 placeholder={placeholder}
                 className="h-full w-full rounded-full border-[1.5px] border-it-gray-400 pl-5 font-afacad outline-none placeholder:text-it-gray-300 focus:border-it-purple-200"
             />
