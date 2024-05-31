@@ -4,5 +4,5 @@ import { withValidationHandler } from "./validation/withValidationHandler.js";
 import { searchValidation } from "./validation/search.validation.js";
 const router = express.Router();
 
-router.post("/search", ...searchValidation, withValidationHandler(search))
+router.post("/getData", ...searchValidation, withValidationHandler(search))
 export default router;
