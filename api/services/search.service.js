@@ -7,12 +7,13 @@ export const search = async (req, res, next) => {
         return next(Conflict.invalidQuery());
     }
     query = query.toString();
+    var searchedData;
     try{
-
+        searchedData = await searchRepository.search(query);
+        console.log(searchedData);
     }
     catch{
-        return next(new UnexpectedError())
+        return next(new UnexpectedError());
     }
-    const searchedData = await searchRepository.search(query);
-    res.status(201).json({data: searchedData});
+    res.status(200).json({data: searchedData});
 }
