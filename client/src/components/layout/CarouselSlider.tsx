@@ -1,11 +1,92 @@
 "use client";
 
+// import CarouselCard from "./CarouselCard";
+// import { products } from "../../constants/index";
+// import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
+// import { useEffect, useState } from "react";
+
+// export default function CarouselSlider() {
+//   const [currentSlide, setCurrentSlide] = useState(0);
+//   const autoSlideInterval = 4000;
+
+//   const prev = () =>
+//     setCurrentSlide((currentSlide) =>
+//       currentSlide === 0 ? products.length - 1 : currentSlide - 1,
+//     );
+
+//   const next = () =>
+//     setCurrentSlide((currentSlide) =>
+//       currentSlide === products.length - 1 ? 0 : currentSlide + 1,
+//     );
+
+//   const buttonClick = (index: number) => {
+//     setCurrentSlide(index);
+//   };
+
+//   useEffect(() => {
+//     const slideInterval = setInterval(next, autoSlideInterval);
+//     return () => clearInterval(slideInterval);
+//   }, []);
+
+//   console.log('Current Slide:', currentSlide); // Debugging
+//   console.log('Products:', products); // Debugging
+
+//   return (
+//     <div>
+//       <div className="relative h-full w-full overflow-hidden">
+//         <div
+//           className="flex transition-transform duration-1000 ease-out"
+//           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+//         >
+//           {products.map((card, index) => (
+//             <div key={card.label} className="">
+//               <CarouselCard
+//                 imgSrc={card.imgSrc}
+//                 label={card.label}
+//                 price={card.price}
+//               />
+//             </div>
+//           ))}
+//         </div>
+//         <div className="absolute inset-0 flex items-center justify-between p-4 text-black">
+//           <button
+//             className="rounded-full bg-stone-800 p-1 text-stone-200 opacity-80 shadow"
+//             onClick={prev}
+//           >
+//             <BsChevronCompactLeft size={30} />
+//           </button>
+//           <button
+//             className="rounded-full bg-stone-800 p-1 text-stone-200 opacity-80 shadow"
+//             onClick={next}
+//           >
+//             <BsChevronCompactRight size={30} />
+//           </button>
+//         </div>
+
+//         <div className="absolute bottom-4 left-0 right-0">
+//           <div className="flex items-center justify-center gap-2">
+//             {products.map((_, index) => {
+//               return (
+//                 <div
+//                   key={index}
+//                   className={`h-3 w-3 rounded-full bg-white transition-all hover:cursor-pointer ${currentSlide === index ? "p-2" : "bg-opacity-50"}`}
+//                   onClick={() => buttonClick(index)}
+//                 ></div>
+//               );
+//             })}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useEffect, useState } from "react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { products } from "../../constants/index";
 import CarouselCard from "./CarouselCard";
+import TriangleChevron from "../icons/TriangleChevronIcon";
 
-function Caraousel() {
+function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -25,38 +106,61 @@ function Caraousel() {
     return () => clearInterval(autoplay);
   }, [currentIndex]);
 
-  const currentProduct = products[currentIndex];
+    const buttonClick = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   return (
-    <div className="group relative m-auto mt-4  w-full  max-w-full">
-      {currentProduct && (
-        <CarouselCard
-          imgSrc={currentProduct.imgSrc}
-          label={currentProduct.label}
-          price={currentProduct.price}
-        />
-      )}
-      {/* Left Arrow */}
-      <div className="absolute left-5 top-[50%] hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
-        <BsChevronCompactLeft onClick={prevSlide} size={30} />
-      </div>
-      {/* Right Arrow */}
-      <div className="absolute right-5 top-[50%] hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
-        <BsChevronCompactRight onClick={nextSlide} size={30} />
-      </div>
-      {/* Index dots  */}
-      {/* <div className='flex top-4 justify-center py-2'>
-        {products.map((slide, slideIndex) => (
-          <div
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-            className='text-2xl cursor-pointer'
-          >
-            <RxDotFilled />
+    <div className="group relative m-auto mt-4 w-full max-w-full overflow-hidden">
+      <div
+        className="flex transition-transform duration-1000 ease-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {products.map((product, index) => (
+          <div key={product.label} className="min-w-full">
+            <CarouselCard
+              imgSrc={product.imgSrc}
+              label={product.label}
+              price={product.price}
+            />
           </div>
         ))}
-      </div> */}
+      </div>
+      {/* Left Arrow */}
+      <div
+        onClick={prevSlide}
+        className="absolute left-5 top-[50%] hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block"
+      >
+        <TriangleChevron
+          direction="left"
+          className="text-white duration-100 ease-in-out hover:scale-125 "
+        />
+      </div>
+      {/* Right Arrow */}
+      <div
+        onClick={nextSlide}
+        className="absolute right-5 top-[50%] hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block"
+      >
+        <TriangleChevron
+          direction="right"
+          className="text-white duration-100 ease-in-out hover:scale-125 hover:bg-stone-200 "
+        />
+      </div>
+              <div className="absolute bottom-4 left-0 right-0">
+         <div className="flex items-center justify-center gap-2">          {products.map((_, index) => {
+              return (
+                 <div
+                   key={index}
+                 className={`h-3 w-3 rounded-full bg-white transition-all hover:cursor-pointer ${currentIndex === index ? "p-2" : "bg-opacity-50"}`}
+                  onClick={() => buttonClick(index)}
+                ></div>
+              );
+            })}
+         </div>
+         </div> 
     </div>
   );
 }
 
-export default Caraousel;
+export default Carousel;
+

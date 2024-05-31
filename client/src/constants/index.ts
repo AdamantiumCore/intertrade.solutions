@@ -42,7 +42,7 @@ export interface HNavLink {
     },
     {
       imgSrc: 'https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80',
-      label: 'Try our Product 4 Lorem ipusm Lorem',
+      label: 'Try our Product 4 Lorem ipusm',
       price: 'Only at $30.00'
     }
   ];
