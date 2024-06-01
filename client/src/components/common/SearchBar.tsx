@@ -7,24 +7,22 @@ type SearchBarProps = {
     placeholder: string,
 }
 export default function SearchBar({ placeholder }: SearchBarProps){
-    const [searchedData, setSearchedData] = useState([{dfd: "dfdf"}]);
+    const [searchedData, setSearchedData] = useState([]);
     const [search, setSearch] = useState("");
-    const searchQuery = useDebounce({object: search, delay: 2000});    
-                
+    const searchQuery = useDebounce({object: search, delay: 2000});//cutomize delay here  
     useEffect(() => {
         if(search == undefined){
             return;
         }
         if(search.length > 3){
-            const data = getAutocompleteData();
-            setSearchedData(data);
+            getAutocompleteData();  
         }         
     }, [searchQuery.value])
 
     function getAutocompleteData() : any {
         axios.post("http://localhost:8800/api/v1/search/getData", {query: search})
-        .then(result => {
-            return result.data;
+        .then(result => { 
+            setSearchedData(result.data.stores) 
         })
         .catch(err => {
             console.log(err.message)
@@ -54,6 +52,15 @@ export default function SearchBar({ placeholder }: SearchBarProps){
             <div onClick={getData} className="absolute right-1 top-1 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-it-purple-300 hover:bg-[#6944DC] hover:cursor-pointer">
               <MagnifyingGlassIcon className="h-[22px] w-[22px] stroke-2 text-white " />
             </div>
+            <div className="autocomplete-items">
+            {searchedData?.map((result, index) => {
+              return (
+                <div key={index} onClick={() => setSearch(result)}>
+                  {result}
+                </div>
+              );
+            })}
+          </div>
         </>
     )
 }
