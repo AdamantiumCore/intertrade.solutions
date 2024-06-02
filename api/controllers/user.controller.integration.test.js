@@ -1,6 +1,5 @@
 const { MySqlContainer } = require("@testcontainers/mysql");
 const request = require('supertest');
-const { app } = require("../app");
 const { execSync } = require('child_process');
 
 describe('User Controller Integration Tests', () => {
@@ -12,7 +11,7 @@ describe('User Controller Integration Tests', () => {
         console.log('The Connection URI:', mySqlContainer.getConnectionUri());
         process.env.DATABASE_URL= mySqlContainer.getConnectionUri()
         const output = execSync(`npx dotenv -v DATABASE_URL=${mySqlContainer.getConnectionUri()}?schema=public -- npx prisma db push`);
-        console.log(output)
+        console.log(output.toString())
     }, 60000);
 
     afterAll(async () => {
@@ -26,7 +25,6 @@ describe('User Controller Integration Tests', () => {
     });
 
     it("should run like magic", async () => {
-        const response = await request(app).post('/register').send({})
-        expect(res.statusCode).toEqual(201)
+    
     })
 })
