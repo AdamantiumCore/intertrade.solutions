@@ -5,7 +5,7 @@ import userRoute from "./routes/user.route.js";
 import cookieParser from "cookie-parser";
 import {globalErrorHandler} from "./middleware/globalErrorHandler.js";
 
-const app = express();
+export const app = express();
 
 app.use(express.json())
 app.use(cookieParser())
