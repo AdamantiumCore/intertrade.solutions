@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import {globalErrorHandler} from "./middleware/globalErrorHandler.js";
 
 const app = express();
-var corsOptions = {
+const corsOptions = {
     origin: 'http://localhost:3000'
   }
   

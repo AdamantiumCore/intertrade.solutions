@@ -27,9 +27,7 @@ export default function SearchBar({ placeholder }: SearchBarProps){
     function getAutocompleteData() : any {
         axios.post(`${SERVER_URL}/search/getData`, {query: search})
         .then(result => { 
-            setSearchedData(result.data.data) 
-            console.log([result.data.data]);
-            console.log([result.data.data][0].products);
+            setSearchedData(result.data) 
         })
         .catch(err => {
             console.log(err.message)
@@ -44,7 +42,7 @@ export default function SearchBar({ placeholder }: SearchBarProps){
     function keyDownHandler(e : any) {
         let key = e.key;
         if(key === "Enter"){
-            getData();
+          getAllSearches();
         }
     }
     return(
@@ -63,7 +61,7 @@ export default function SearchBar({ placeholder }: SearchBarProps){
             Products:
             {searchedData?.products.map((result, index) => {
               return (
-                <div key={index} onClick={() => setSearch(result.name)}>
+                <div key={result.id} onClick={() => setSearch(result.name)}>
                   {result.name}
                 </div>
               );
@@ -71,7 +69,7 @@ export default function SearchBar({ placeholder }: SearchBarProps){
             Stores:
             {searchedData?.stores.map((result, index) => {
               return (
-                <div key={index} onClick={() => setSearch(result.name)}>
+                <div key={result.id} onClick={() => setSearch(result.name)}>
                   {result.name}
                 </div>
               );

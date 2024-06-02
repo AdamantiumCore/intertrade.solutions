@@ -1,4 +1,4 @@
-import { Conflict } from "../errors/Conflict.js";
+import { InvalidData } from "../errors/InvalidData.js";
 import { UnexpectedError } from "../errors/UnexpectedError.js";
 import { hashPassword } from "../utilities/password-utils.js";
 import * as userRepository from "../repositories/user.repository.js";
@@ -18,7 +18,7 @@ export const getUser = async (req, res, next) => {
   try {
     user = await userRepository.findUserById(userId);
     if (user == null) {
-      return next(Conflict.invalidUser());
+      return next(InvalidData.invalidUser());
     }
   } catch {
     return next(new UnexpectedError());
@@ -46,7 +46,7 @@ export const updateUser = async (req, res, next) => {
   try {
     const user = await userRepository.findUserById(userId);
     if (!user) {
-      return next(Conflict.invalidUser());
+      return next(InvalidData.invalidUser());
     }
     if (user.username !== username || user.email !== email) {
       const isUserEmailAlreadyExist = await userRepository.findUserByEmail(
@@ -117,11 +117,11 @@ export const deleteUser = async (req, res, next) => {
   try {
     const user = await userRepository.findUserById(userId);
     if (!user) {
-      return next(Conflict.invalidUser());
+      return next(InvalidData.invalidUser());
     }
     var addresId = user.addressID;
     if (!addresId) {
-      return next(Conflict.invalidAddress());
+      return next(InvalidData.invalidAddress());
     }
     await userRepository.deleteUser(userId);
     await addressService.deleteAddress(addresId);
