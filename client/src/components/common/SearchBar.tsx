@@ -6,8 +6,12 @@ import axios from "axios";
 type SearchBarProps = {
     placeholder: string,
 }
+type SearchedData = {
+    products: any[],
+    stores: any[]
+}
 export default function SearchBar({ placeholder }: SearchBarProps){
-    const [searchedData, setSearchedData] = useState([]);
+    const [searchedData, setSearchedData] = useState<SearchedData>();
     const [search, setSearch] = useState("");
     const searchQuery = useDebounce({object: search, delay: 2000});//cutomize delay here  
     useEffect(() => {
@@ -22,7 +26,9 @@ export default function SearchBar({ placeholder }: SearchBarProps){
     function getAutocompleteData() : any {
         axios.post("http://localhost:8800/api/v1/search/getData", {query: search})
         .then(result => { 
-            setSearchedData(result.data.stores) 
+            setSearchedData(result.data.data) 
+            console.log([result.data.data]);
+            console.log([result.data.data][0].products);
         })
         .catch(err => {
             console.log(err.message)
@@ -52,11 +58,20 @@ export default function SearchBar({ placeholder }: SearchBarProps){
             <div onClick={getData} className="absolute right-1 top-1 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-it-purple-300 hover:bg-[#6944DC] hover:cursor-pointer">
               <MagnifyingGlassIcon className="h-[22px] w-[22px] stroke-2 text-white " />
             </div>
-            <div className="autocomplete-items">
-            {searchedData?.map((result, index) => {
+            <div>
+            Products:
+            {searchedData?.products.map((result, index) => {
               return (
-                <div key={index} onClick={() => setSearch(result)}>
-                  {result}
+                <div key={index} onClick={() => setSearch(result.name)}>
+                  {result.name}
+                </div>
+              );
+            })}
+            Stores:
+            {searchedData?.stores.map((result, index) => {
+              return (
+                <div key={index} onClick={() => setSearch(result.name)}>
+                  {result.name}
                 </div>
               );
             })}
