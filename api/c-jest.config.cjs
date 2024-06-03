@@ -1,6 +1,9 @@
 module.exports = {
     // A list of paths to directories that Jest should use to search for files in
     roots: ['<rootDir>/'],
+
+    // setup files
+    setupFiles: ["<rootDir>/jest.setup.js"],
   
     // Indicates whether each individual test should be reported during the run
     verbose: true,
@@ -39,6 +42,10 @@ module.exports = {
     // A map from regular expressions to module names that allow to stub out resources with a single module
     moduleNameMapper: {
       '^@/(.*)$': '<rootDir>/src/$1',
+    },
+
+    transform: {
+      '^.+\\.js$': 'babel-jest',
     },
   };
   
