@@ -14,5 +14,3 @@ app.use("/api/v1/auth", authRoute)
 app.use("/api/v1/test", testRoute)
 app.use("/api/v1/user", userRoute)
 app.use(globalErrorHandler());
-
-app.listen(8800)
