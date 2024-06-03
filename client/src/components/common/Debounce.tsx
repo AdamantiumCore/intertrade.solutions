@@ -1,8 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-type UseDebounceProps<T> = {
-    object: T
-    delay?: number
-}
+import { UseDebounceProps } from "../../types/Debouncer/types";
 export default function useDebounce<T>({ object, delay = 1000}: UseDebounceProps<T>){
   const [value, setValue] = useState<T | undefined>()
   const [isBouncing, setBouncing] = useState(true)

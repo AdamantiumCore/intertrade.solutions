@@ -2,15 +2,10 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import useDebounce from "./Debounce";
+import {SearchBarProps, SearchedData } from "../../types/SearchBar/types";
 import axios from "axios";
 const SERVER_URL = "http://localhost:8800/api/v1";
-type SearchBarProps = {
-    placeholder: string,
-}
-type SearchedData = {
-    products: any[],
-    stores: any[]
-}
+
 export default function SearchBar({ placeholder }: SearchBarProps){
     const [searchedData, setSearchedData] = useState<SearchedData>();
     const [search, setSearch] = useState("");
