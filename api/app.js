@@ -9,7 +9,7 @@ import {globalErrorHandler} from "./middleware/globalErrorHandler.js";
 
 const app = express();
 const corsOptions = {
-    origin: 'http://localhost:3000'
+    origin: process.env.CORS_URL
   }
   
 app.use(express.json())
@@ -21,5 +21,4 @@ app.use("/api/v1/test", testRoute)
 app.use("/api/v1/user", userRoute)
 app.use("/api/v1/search", searchRoute)
 app.use(globalErrorHandler());
-
 app.listen(8800)
