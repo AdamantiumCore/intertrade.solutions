@@ -1,18 +1,13 @@
-const { MySqlContainer } = require("@testcontainers/mysql");
-const request = require('supertest');
-const { execSync } = require('child_process');
+import request from 'supertest';
+import start from '../__test__/test.database';
 
 describe('User Controller Integration Tests', () => {
     
-    let mySqlContainer;
     let app;
+    let mySqlContainer;
 
     beforeAll(async () => {
-        mySqlContainer = await new MySqlContainer().start();
-        console.log('The Connection URI:', mySqlContainer.getConnectionUri());
-        process.env.DATABASE_URL= mySqlContainer.getConnectionUri()
-        const output = execSync(`npx dotenv -v DATABASE_URL=${mySqlContainer.getConnectionUri()}?schema=public -- npx prisma db push`);
-        console.log(output.toString())
+        mySqlContainer = await start()
         app = require('../app')
     }, 60000);
 
@@ -27,7 +22,27 @@ describe('User Controller Integration Tests', () => {
     });
 
     it("should run like magic", async () => {
-        console.log('test DATABASE_URL', process.env.DATABASE_URL)
+        //console.log('test DATABASE_URL', process.env.DATABASE_URL)
+        const response = await request(app.app).post('/api/v1/auth/register').send({
+            "username": "username",
+            "password": "password",
+            "firstName": "firstName",
+            "lastName": "lastName",
+            "middleName": "MiddleName",
+            "avatar": "avatar.png/jpg",
+            "address": "address",
+            "city": "city",
+            "country": "country",
+            "state_province": "state_province",
+            "zipcode": "zipcode",
+            "phone": "phone",
+            "email": "email"
+        })
+        console.log(response.body)
+    })
+
+    it("should run like magic 2", async () => {
+        //console.log('test DATABASE_URL', process.env.DATABASE_URL)
         const response = await request(app.app).post('/api/v1/auth/register').send({
             "username": "username",
             "password": "password",

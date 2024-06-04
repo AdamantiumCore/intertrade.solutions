@@ -2,8 +2,11 @@ export default {
     // A list of paths to directories that Jest should use to search for files in
     roots: ['<rootDir>/'],
 
-    // setup files
+    // setup files for all suites
     setupFiles: ["<rootDir>/jest.setup.js"],
+
+    // setup file for each test case
+    setupFilesAfterEnv: ["<rootDir>/jest.it.setup.js"],
 
     // Indicates whether each individual test should be reported during the run
     verbose: true,
