@@ -1,5 +1,5 @@
 import request from 'supertest';
-import start from '../__test__/test.database';
+import {start, stop} from '../__test__/test.database';
 
 describe('User Controller Integration Tests', () => {
     
@@ -12,13 +12,7 @@ describe('User Controller Integration Tests', () => {
     }, 60000);
 
     afterAll(async () => {
-        try {
-            if (mySqlContainer) {
-                await mySqlContainer.stop();
-            }
-        } catch (error) {
-            console.error("Error tearing down MySQL container and client:", error);
-        }
+        await stop(mySqlContainer)
     });
 
     it("should run like magic", async () => {

@@ -3,7 +3,7 @@ console.log('test.database.js')
 import { MySqlContainer } from "@testcontainers/mysql";
 import { execSync } from 'child_process';
 
-async function start() {
+export async function start() {
     const mySqlContainer = await new MySqlContainer().start();
     console.log('test.database.js URI:', mySqlContainer.getConnectionUri());
     process.env.DATABASE_URL= mySqlContainer.getConnectionUri()
@@ -13,5 +13,12 @@ async function start() {
     return mySqlContainer
 }
 
-export default start
-
+export async function stop(container){
+    try {
+        if (container) {
+            await container.stop();
+        }
+    } catch (error) {
+        console.error("Error tearing down MySQL container and client:", error);
+    }
+}
