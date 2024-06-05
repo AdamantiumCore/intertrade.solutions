@@ -1,19 +1,26 @@
 import request from 'supertest';
-import {start, stop} from '../__test__/test.database';
+import {start, stop} from '../__test__/test.containers';
+import { prismaClient } from '../__test__/db.client';
 
 describe('User Controller Integration Tests', () => {
     
     let app;
     let mySqlContainer;
+    let dbClient;
 
     beforeAll(async () => {
         mySqlContainer = await start()
         app = require('../app')
+        dbClient = prismaClient() 
     }, 60000);
 
     afterAll(async () => {
         await stop(mySqlContainer)
     });
+
+    beforeEach(async () => {
+        await dbClient.users.deleteMany()
+    })
 
     it("should run like magic", async () => {
         //console.log('test DATABASE_URL', process.env.DATABASE_URL)
