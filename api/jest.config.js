@@ -3,10 +3,10 @@ export default {
     roots: ['<rootDir>/'],
 
     // setup files for all suites
-    setupFiles: ["<rootDir>/jest.setup.js"],
+    setupFiles: ["<rootDir>/__test__/jest.setup.js"],
 
     // setup file for each test case
-    setupFilesAfterEnv: ["<rootDir>/jest.it.setup.js"],
+    setupFilesAfterEnv: ["<rootDir>/__test__/jest.it.setup.js"],
 
     // Indicates whether each individual test should be reported during the run
     verbose: true,

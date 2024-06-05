@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
-export function prismaClient() {
+export function dbClient() {
   const url = process.env.DATABASE_URL
-  console.log('db.client.js - url', url)
-
   const prisma = new PrismaClient({
     datasources: {
       db: {
