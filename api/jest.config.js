@@ -6,9 +6,6 @@ export default {
 
     globalTeardown: '<rootDir>/__test__/teardown.js',
 
-    // setup files for all suites
-    setupFiles: ["<rootDir>/__test__/jest.setup.js"],
-
     // setup file for each test case
     setupFilesAfterEnv: ["<rootDir>/__test__/jest.it.setup.js"],
 

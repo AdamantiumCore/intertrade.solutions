@@ -5,11 +5,12 @@ describe('User Controller Integration Tests', () => {
     let app;
 
     beforeAll(async () => {
-        app = require('../app')
+        const module = await import('../app');
+        app = module.default;
     }, 60000);
 
     it("should run like magic", async () => {
-        const response = await request(app.app).post('/api/v1/auth/register').send({
+        const response = await request(app).post('/api/v1/auth/register').send({
             "username": "username",
             "password": "password",
             "firstName": "firstName",
@@ -23,12 +24,12 @@ describe('User Controller Integration Tests', () => {
             "zipcode": "zipcode",
             "phone": "phone",
             "email": "email"
-        })
-        console.log(response.body)
-    })
+        });
+        console.log(response.body);
+    });
 
     it("should run like magic 2", async () => {
-        const response = await request(app.app).post('/api/v1/auth/register').send({
+        const response = await request(app).post('/api/v1/auth/register').send({
             "username": "username",
             "password": "password",
             "firstName": "firstName",
@@ -42,7 +43,7 @@ describe('User Controller Integration Tests', () => {
             "zipcode": "zipcode",
             "phone": "phone",
             "email": "email"
-        })
-        console.log(response.body)
-    })
-})
+        });
+        console.log(response.body);
+    });
+});
