@@ -8,10 +8,6 @@ describe('User Controller Integration Tests', () => {
         app = require('../app')
     }, 60000);
 
-    beforeEach(async () => {
-        await global.__CLIENT__.users.deleteMany();
-    })
-
     it("should run like magic", async () => {
         const response = await request(app.app).post('/api/v1/auth/register').send({
             "username": "username",
