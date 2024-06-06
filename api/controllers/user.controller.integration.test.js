@@ -4,7 +4,8 @@ import { problemDetailsJson, violation, badRequestProblemJsonMatcher } from '../
 describe('User Controller Integration Tests', () => {
 
     it("should run like magic", async () => {
-        const response = await request(global.__APP__()).post('/api/v1/auth/register').send({
+        await request(global.__APP__()).post('/api/v1/auth/register').send({
+            "username": "username",
             "password": "password",
             "firstName": "firstName",
             "lastName": "lastName",
@@ -22,7 +23,7 @@ describe('User Controller Integration Tests', () => {
     });
 
     it("should run like magic 2", async () => {
-        const response = await request(global.__APP__()).post('/api/v1/auth/register').send({
+        await request(global.__APP__()).post('/api/v1/auth/register').send({
             "username": "username",
             "password": "password",
             "firstName": "firstName",
@@ -41,7 +42,7 @@ describe('User Controller Integration Tests', () => {
     });
 
 
-    it.only("should return problem details!", async () => {
+    it("should return problem details!", async () => {
         await request(global.__APP__()).post('/api/v1/auth/register').send({})
             .expect(400)
             .expect(problemDetailsJson())
