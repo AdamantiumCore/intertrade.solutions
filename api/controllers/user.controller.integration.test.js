@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { problemDetailsJson, problemJsonMatcher } from '../__test__/assertions'
+import { problemDetailsJson, problemJsonMatcher, badRequestProblemJsonMatcher } from '../__test__/assertions'
 
 describe('User Controller Integration Tests', () => {
 
@@ -45,11 +45,7 @@ describe('User Controller Integration Tests', () => {
         await request(global.__APP__()).post('/api/v1/auth/register').send({})
             .expect(400)
             .expect(problemDetailsJson())
-            .then(problemJsonMatcher({
-                type: 'api/bad-request',
-                title: 'Bad Request',
-                detail: 'Request failed validations',
-                status: 400,
+            .expect(badRequestProblemJsonMatcher({
                 violations: [
                     { property: 'middleName', type: 'not.empty' },
                     { property: 'avatar', type: 'not.empty' },

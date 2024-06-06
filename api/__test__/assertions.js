@@ -5,6 +5,7 @@ export const problemDetailsJson = () => (res) => {
     }
 };
 
+
 export const problemJsonMatcher = (expected) => {
     return (res) => {
         const body = res.body;
@@ -18,5 +19,16 @@ export const problemJsonMatcher = (expected) => {
             violations: expect.arrayContaining(violations)
         }));
     };
+};
+
+export const badRequestProblemJsonMatcher = (additionalExpected) => {
+    const common = {
+        type: 'api/bad-request',
+        title: 'Bad Request',
+        detail: 'Request failed validations',
+        status: 400
+    };
+
+    return problemJsonMatcher({ ...common, ...additionalExpected });
 };
 
