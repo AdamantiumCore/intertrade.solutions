@@ -17,8 +17,8 @@ describe('User Controller Integration Tests', () => {
             "zipcode": "zipcode",
             "phone": "phone",
             "email": "email"
-        });
-        console.log(response.body);
+        })
+        .expect(201);
     });
 
     it("should run like magic 2", async () => {
@@ -36,7 +36,7 @@ describe('User Controller Integration Tests', () => {
             "zipcode": "zipcode",
             "phone": "phone",
             "email": "email"
-        });
-        console.log(response.body);
+        })
+        .expect(201);
     });
 });
