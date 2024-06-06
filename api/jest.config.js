@@ -2,6 +2,10 @@ export default {
     // A list of paths to directories that Jest should use to search for files in
     roots: ['<rootDir>/'],
 
+    globalSetup: '<rootDir>/__test__/setup.js',
+
+    globalTeardown: '<rootDir>/__test__/teardown.js',
+
     // setup files for all suites
     setupFiles: ["<rootDir>/__test__/jest.setup.js"],
 

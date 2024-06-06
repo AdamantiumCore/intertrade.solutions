@@ -1,25 +1,15 @@
 import request from 'supertest';
-import {start, stop} from '../__test__/test.container';
-import { dbClient } from '../__test__/db.client';
 
 describe('User Controller Integration Tests', () => {
     
     let app;
-    let mySqlContainer;
-    let client;
 
     beforeAll(async () => {
-        mySqlContainer = await start()
         app = require('../app')
-        client = dbClient() 
     }, 60000);
 
-    afterAll(async () => {
-        await stop(mySqlContainer)
-    });
-
     beforeEach(async () => {
-        await client.users.deleteMany()
+        await global.__CLIENT__.users.deleteMany();
     })
 
     it("should run like magic", async () => {
