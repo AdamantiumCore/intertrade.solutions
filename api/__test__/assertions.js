@@ -4,3 +4,19 @@ export const problemDetailsJson = () => (res) => {
         throw new Error(`Expected content-type application/problem+json; charset=utf-8 but got ${res.headers['content-type']}`);
     }
 };
+
+export const problemJsonMatcher = (expected) => {
+    return (res) => {
+        const body = res.body;
+        const { type, title, detail, status, violations } = expected;
+
+        expect(body).toEqual(expect.objectContaining({
+            type,
+            title,
+            detail,
+            status,
+            violations: expect.arrayContaining(violations)
+        }));
+    };
+};
+
