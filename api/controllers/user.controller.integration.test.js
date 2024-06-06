@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { problemDetailsJson, problemJsonMatcher, badRequestProblemJsonMatcher } from '../__test__/assertions'
+import { problemDetailsJson, violation, badRequestProblemJsonMatcher } from '../__test__/assertions'
 
 describe('User Controller Integration Tests', () => {
 
@@ -47,19 +47,19 @@ describe('User Controller Integration Tests', () => {
             .expect(problemDetailsJson())
             .expect(badRequestProblemJsonMatcher({
                 violations: [
-                    { property: 'middleName', type: 'not.empty' },
-                    { property: 'avatar', type: 'not.empty' },
-                    { property: 'address', type: 'not.empty' },
-                    { property: 'city', type: 'not.empty' },
-                    { property: 'country', type: 'not.empty' },
-                    { property: 'state_province', type: 'not.empty' },
-                    { property: 'zipcode', type: 'not.empty' },
-                    { property: 'phone', type: 'not.empty' },
-                    { property: 'email', type: 'not.empty' },
-                    { property: 'username', type: 'not.empty' },
-                    { property: 'password', type: 'not.empty' },
-                    { property: 'firstName', type: 'not.empty' },
-                    { property: 'lastName', type: 'not.empty' }
+                    violation('middleName', 'not.empty'),
+                    violation('avatar', 'not.empty'),
+                    violation('address', 'not.empty'),
+                    violation('city', 'not.empty'),
+                    violation('country', 'not.empty'),
+                    violation('state_province', 'not.empty'),
+                    violation('zipcode', 'not.empty'),
+                    violation('phone', 'not.empty'),
+                    violation('email', 'not.empty'),
+                    violation('username', 'not.empty'),
+                    violation('password', 'not.empty'),
+                    violation('firstName', 'not.empty'),
+                    violation('lastName', 'not.empty')
                 ]
             }));
     });
