@@ -1,4 +1,4 @@
-import prisma from "../prisma/prisma"
+import prisma from "../prisma/prisma.js";
 export const getStoresByQuery = async (query) => {
     return await prisma.stores.findMany({
         where: {
@@ -16,4 +16,15 @@ export const getStoresByQuery = async (query) => {
           ],
         }
     })
+}
+export const getStoreById = async (id) => {
+  return await prisma.stores.findUnique({
+    where: {id},
+    include: {
+      address: true,
+      products: true,
+      comments: true,
+      ratings: true,
+    }
+  })
 }

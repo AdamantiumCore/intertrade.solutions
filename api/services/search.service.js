@@ -1,16 +1,24 @@
 import { UnprocessableContent } from "../errors/UnprocessableContent.js";
 import * as searchRepository from "../repositories/search.repository.js";
+import * as productRepository from "../repositories/product.repository.js";
+import * as storeRepository from "../repositories/store.repository.js";
 export const getProductsAndStores = async (req, res, next) => {
     var { query } = req.body;
     if(query.length < 3){
         return next(UnprocessableContent.invalidQuery());
     }
     query = query.toString();
-    const searchedData = await searchRepository.getProductsAndStores(query);
+    const stores = await storeRepository.getStoresByQuery(query);
+    const products = await productRepository.getProductsByQuery(query);
+    const searchedData = {stores, products};
     res.status(200).json(searchedData);
 }
 export const getSearchQueryDetails = async (req, res, next) => {
     const searchId = req.params.id;
-    const searchDetails = await searchRepository.getSearchQueryDetails(searchId);
-    res.status(200).json(searchDetails)
+    const store = await storeRepository.getStoreById(searchId);
+    if(store !== null){
+        return res.status(200).json(store)
+    }
+    const product = await productRepository.getProductById(searchId);
+    res.status(200).json(product);
 }
