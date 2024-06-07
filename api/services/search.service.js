@@ -1,9 +1,9 @@
-import { InvalidData } from "../errors/InvalidData.js";
+import { UnprocessableContent } from "../errors/UnprocessableContent.js";
 import * as searchRepository from "../repositories/search.repository.js";
 export const getProductsAndStores = async (req, res, next) => {
     var { query } = req.body;
     if(query.length < 3){
-        return next(InvalidData.invalidQuery());
+        return next(UnprocessableContent.invalidQuery());
     }
     query = query.toString();
     const searchedData = await searchRepository.getProductsAndStores(query);

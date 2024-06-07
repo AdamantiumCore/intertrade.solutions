@@ -2,7 +2,7 @@ import {ProblemDetails, Violation} from "../types/problemDetails.js";
 import {Validation} from "../errors/validation.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
 import {Conflict} from "../errors/Conflict.js";
-import { InvalidData } from "../errors/InvalidData.js";
+import { UnprocessableContent } from "../errors/UnprocessableContent.js";
 
 export const globalErrorHandler = () => {
   return (err, req, res, _next) => {
@@ -30,7 +30,7 @@ export const globalErrorHandler = () => {
       }));
     }
     
-    if (err instanceof InvalidData) {
+    if (err instanceof UnprocessableContent) {
       return buildErrorResponse(res, new ProblemDetails({
         type: err.type,
         title: 'InvalidData',

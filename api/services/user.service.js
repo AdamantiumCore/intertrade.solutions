@@ -1,4 +1,4 @@
-import { InvalidData } from "../errors/InvalidData.js";
+import { UnprocessableContent } from "../errors/UnprocessableContent.js";
 import { hashPassword } from "../utilities/password-utils.js";
 import * as userRepository from "../repositories/user.repository.js";
 import * as addressService from "../services/address.service.js";
@@ -10,7 +10,7 @@ export const getUser = async (req, res, next) => {
   const userId = req.params.id;
   const user = await userRepository.findUserById(userId);
   if (user == null) {
-    return next(InvalidData.invalidUser());
+    return next(UnprocessableContent.invalidUser());
   }
   res.status(200).json(user);
 };
@@ -33,7 +33,7 @@ export const updateUser = async (req, res, next) => {
   } = req.body;
   const user = await userRepository.findUserById(userId);
   if (!user) {
-    return next(InvalidData.invalidUser());
+    return next(UnprocessableContent.invalidUser());
   }
   if (user.username !== username || user.email !== email) {
     const isUserEmailAlreadyExist = await userRepository.findUserByEmail(
@@ -99,11 +99,11 @@ export const deleteUser = async (req, res, next) => {
   const userId = req.params.id;
   const user = await userRepository.findUserById(userId);
   if (!user) {
-    return next(InvalidData.invalidUser());
+    return next(UnprocessableContent.invalidUser());
   }
   var addresId = user.addressID;
   if (!addresId) {
-    return next(InvalidData.invalidAddress());
+    return next(UnprocessableContent.invalidAddress());
   }
   await userRepository.deleteUser(userId);
   await addressService.deleteAddress(addresId);
