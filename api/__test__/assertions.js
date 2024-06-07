@@ -33,3 +33,9 @@ export const badRequestProblemJsonMatcher = (additionalExpected) => {
     return problemJsonMatcher({ ...common, ...additionalExpected });
 };
 
+export const jsonMatcher = (expected) => {
+    return (res) => {
+        expect(res.body).toEqual(expect.objectContaining(expected))
+    }
+}
+
