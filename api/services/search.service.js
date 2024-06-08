@@ -1,5 +1,3 @@
-import { UnprocessableContent } from "../errors/UnprocessableContent.js";
-import * as searchRepository from "../repositories/search.repository.js";
 import * as productRepository from "../repositories/product.repository.js";
 import * as storeRepository from "../repositories/store.repository.js";
 export const getProductsAndStores = async (req, res, next) => {
