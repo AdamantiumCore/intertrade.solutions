@@ -8,15 +8,6 @@ export default function useDebounce<T>({ object, delay = 1000}: UseDebounceProps
     if(!object){
       return 0
     }
-
-    if(object instanceof Array && !object.length){
-      return 0;
-    }
-
-    if(object instanceof Object && !Object.keys(object).length){
-      return 0;
-    }
-
     return delay
   }, [delay, object]);
 
