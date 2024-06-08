@@ -4,9 +4,6 @@ import * as productRepository from "../repositories/product.repository.js";
 import * as storeRepository from "../repositories/store.repository.js";
 export const getProductsAndStores = async (req, res, next) => {
     var { query } = req.body;
-    if(query.length < 3){
-        return next(UnprocessableContent.invalidQuery());
-    }
     query = query.toString();
     const stores = await storeRepository.getStoresByQuery(query);
     const products = await productRepository.getProductsByQuery(query);
