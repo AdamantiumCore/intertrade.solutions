@@ -1,5 +1,6 @@
 import { UserSpec } from './specs/UserSpec.js'
 import path from 'path';
+import { db } from './utils/db.js'
 
 console.log('Running playground ....')
 
@@ -8,6 +9,7 @@ async function main() {
     await UserSpec
         .fromPath(fromPath)
         .fileName('John.Doe.Michael.json')
+        .using(db)
         .build()
 }
 

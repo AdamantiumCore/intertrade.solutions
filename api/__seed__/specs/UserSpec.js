@@ -11,6 +11,11 @@ export class UserSpec {
         return this
     }
 
+    using(prisma) {
+        this.prisma = prisma
+        return this
+    }
+
     async build() {
         const user = await readJsonFile(path.join(this.path, this.name))
         console.log('User', user)
