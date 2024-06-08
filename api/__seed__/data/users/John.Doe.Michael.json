@@ -1,0 +1,10 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "middle": "Michael",
+  "avatar": "https://example.com/avatar.jpg",
+  "phone": "+1234567890",
+  "email": "john.doe@example.com",
+  "username": "johndoe",
+  "password": "password1"
+}
