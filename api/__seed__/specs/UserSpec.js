@@ -2,19 +2,21 @@ import path from 'path';
 import { readJsonFile } from '../utils/fileReader.js'
 
 export class UserSpec {
-    constructor(fileName) {
-        this.fileName = fileName;
+    constructor(path) {
+        this.path = path;
     }
 
-    
-    async build() {
-        const fileLocation = path.join(process.cwd(), 'data', 'users', this.fileName)
-        const user = await readJsonFile(fileLocation)
+    fileName(name) {
+        this.name = name
+        return this
+    }
 
+    async build() {
+        const user = await readJsonFile(path.join(this.path, this.name))
         console.log('User', user)
     }
 
-    static fromString(fileName) {
-        return new UserSpec(fileName);
+    static fromPath(path) {
+        return new UserSpec(path);
     }
 }
