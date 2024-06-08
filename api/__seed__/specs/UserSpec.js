@@ -19,6 +19,12 @@ export class UserSpec {
     async build() {
         const user = await readJsonFile(path.join(this.path, this.name))
         console.log('User', user)
+
+        await this.prisma.users.create({
+            data: {
+                ...user
+            }
+        })
     }
 
     static fromPath(path) {

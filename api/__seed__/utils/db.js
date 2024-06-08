@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 export function db() {
   const url = process.env.DATABASE_URL
+  console.log('database url for __seed__', url)
   const prisma = new PrismaClient({
     datasources: {
       db: {

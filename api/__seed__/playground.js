@@ -9,7 +9,7 @@ async function main() {
     await UserSpec
         .fromPath(fromPath)
         .fileName('John.Doe.Michael.json')
-        .using(db)
+        .using(db())
         .build()
 }
 
