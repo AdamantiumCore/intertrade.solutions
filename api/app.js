@@ -21,4 +21,5 @@ app.use("/api/v1/test", testRoute)
 app.use("/api/v1/user", userRoute)
 app.use("/api/v1/search", searchRoute)
 app.use(globalErrorHandler());
-app.listen(8800)
+export default app;
+
