@@ -1,28 +1,26 @@
 import path from 'path';
 import { readJsonFile } from '../utils/fileReader.js'
+import { Spec } from './Spec.js';
 
-export class UserSpec {
+export class UserSpec extends Spec {
     constructor(path) {
-        this.path = path;
+        super(path)
     }
 
-    fileName(name) {
-        this.name = name
-        return this
-    }
-
-    using(prisma) {
-        this.prisma = prisma
+    usingAddressSpec(addressSpec){
+        this.addressSpec = addressSpec
         return this
     }
 
     async build() {
+        this.addressSpec.using(this.prisma)
+        const address = await this.addressSpec.build()
         const user = await readJsonFile(path.join(this.path, this.name))
-        console.log('User', user)
 
-        await this.prisma.users.create({
+        return await this.prisma.users.create({
             data: {
-                ...user
+                ...user,
+                addressID: address.id
             }
         })
     }

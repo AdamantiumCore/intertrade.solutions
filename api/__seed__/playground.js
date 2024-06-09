@@ -1,16 +1,25 @@
 import { UserSpec } from './specs/UserSpec.js'
 import path from 'path';
 import { db } from './utils/db.js'
+import { AddressSpec } from './specs/AddressSpec.js';
 
 console.log('Running playground ....')
 
 async function main() {
-    const fromPath = path.join(process.cwd(), 'data', 'users')
+    const usersPath = path.join(process.cwd(), 'data', 'users')
+    const addressesPath = path.join(process.cwd(), 'data', 'addresses')
+
     await UserSpec
-        .fromPath(fromPath)
-        .fileName('John.Doe.Michael.json')
+        .fromPath(usersPath)
+        .fileName('john.doe.michael.json')
         .using(db())
+        .usingAddressSpec(
+            AddressSpec
+                .fromPath(addressesPath)
+                .fileName('address.1.json')
+        )
         .build()
+
 }
 
 main()
