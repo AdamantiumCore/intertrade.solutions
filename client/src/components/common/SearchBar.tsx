@@ -1,7 +1,7 @@
 "use client";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
-import useDebounce from "./Debounce";
+import useDebounce from "../../hooks/Debouncer/useDebounce";
 import {SearchBarProps, SearchedData } from "../../types/SearchBar/types";
 import axios from "axios";
 const SERVER_URL = "http://localhost:8800/api/v1";
