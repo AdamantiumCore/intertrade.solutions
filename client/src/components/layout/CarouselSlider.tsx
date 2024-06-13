@@ -1,37 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { products as p } from "../../constants/index";
 import CarouselCard from "./CarouselCard";
 import TriangleChevron from "../icons/TriangleChevronIcon";
 
+type TimerRef = MutableRefObject<ReturnType<typeof setTimeout> | null>;
+
 function Carousel() {
-  const [previousIndex, setPreviousIndex] = useState<number>(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [indecies, setLastTransition] = useState<[number, number]>([0, 0]);
+  const [indecies, setLastTransition] = useState<[number, number]>([0, 0]); // indecies[0] === previousIndex, indecies[1] === currentIndex
   const [products, setProducts] = useState(p);
   const [slides, setSlides] = useState([p[p.length - 1], ...p, p[0]]);
+  const autoplayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const slideContainerRef = useRef<HTMLDivElement>(null);
-  const slideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const slideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // for first/last slide transition
   const slideQueueRef = useRef<Array<number>>([]);
-  // const [slides, setSlides] = useState(
-  //   [products[products.length - 1]].concat(products.slice(1)),
-  // );
-
-  const prevSlide = () => {
-    const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? products.length - 1 : currentIndex - 1;
-    setPreviousIndex(currentIndex);
-    setCurrentIndex(newIndex);
-  };
-
-  const nextSlide = () => {
-    const isLastSlide = currentIndex === products.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setPreviousIndex(currentIndex);
-    setCurrentIndex(newIndex);
-  };
 
   function changeSlide(num: number) {
     if (
@@ -52,6 +36,7 @@ function Carousel() {
           "duration-1000",
           "duration-0",
         );
+        clearTimer(autoplayTimerRef);
         setLastTransition([indecies[1], toLast ? p.length - 1 : 0]);
         slideTimerRef.current = null;
       }, 1000);
@@ -60,19 +45,25 @@ function Carousel() {
     }
   }
 
-  function clearTimer(id: ReturnType<typeof setTimeout>) {
+  function clearTimer(timer: TimerRef) {
+    const id: ReturnType<typeof setTimeout> = timer.current!;
     clearTimeout(id);
-    slideTimerRef.current = null;
+    timer.current = null;
   }
 
   useEffect(() => {
+    function setAutoplay(ms: number) {
+      autoplayTimerRef.current = setTimeout(() => {
+        autoplayTimerRef.current = null;
+        changeSlide(indecies[1] + 1);
+      }, ms);
+    }
     const prevIdx = indecies[0];
     const currIdx = indecies[1];
 
     if (Math.abs(prevIdx - currIdx) === p.length - 1) {
       slideContainerRef.current!.style.transform = `translateX(-${(currIdx + 1) * 100}%)`;
-      if (slideQueueRef.current.length > 1)
-        changeSlide(slideQueueRef.current[slideQueueRef.current.length - 1]);
+      if (!autoplayTimerRef.current) setAutoplay(1000);
     } else {
       slideContainerRef.current!.classList.replace(
         "duration-0",
@@ -80,162 +71,53 @@ function Carousel() {
       );
       slideContainerRef.current!.style.transform = `translateX(-${(currIdx + 1) * 100}%)`;
     }
-
-    console.log("IND", indecies);
+    if (!autoplayTimerRef.current) setAutoplay(2000);
   }, [indecies]);
-
-  // useEffect(() => {
-  //   if(currentIndex === 0 && prev)
-  // }, [currentIndex])
-
-  // useEffect(() => {
-  //   // setProducts()
-  //   // if (Array.isArray(products)) {
-  //   //   // setSlides();
-  //   // }
-  //   if (previousIndex === currentIndex) return;
-
-  //   if (previousIndex === currentIndex - 1) {
-  //     setSlides([
-  //       ...slides.slice(1, 2),
-  //       currentIndex === products.length - 1
-  //         ? products[0]
-  //         : products[currentIndex + 1],
-  //     ]);
-  //   } else {
-  //     setSlides([
-  //       currentIndex === 0
-  //         ? products[products.length - 1]
-  //         : products[currentIndex - 1],
-  //       ...slides.slice(1),
-  //     ]);
-  //   }
-  // }, [previousIndex, currentIndex]);
-
-  // useEffect(() => {
-  //   if(currentIndex )
-  // }, [currentIndex])
-
-  // useEffect(() => {
-  //   const autoplay = setInterval(nextSlide, 2000); // Change slide every 2 seconds
-  //   return () => clearInterval(autoplay);
-  // }, [currentIndex]);
-
-  const buttonClick = (index: number) => {
-    setPreviousIndex(currentIndex);
-    setCurrentIndex(index);
-  };
 
   return (
     <div className="group relative m-auto mt-4 flex h-[80vh] w-screen overflow-hidden">
-      {/* <div */}
       <div
         ref={slideContainerRef}
-        style={{ transform: `translateX(-${(currentIndex + 1) * 100}%)` }}
+        style={{ transform: `translateX(-${(indecies[1] + 1) * 100}%)` }}
         className={classNames(
           "absolute flex h-full w-full bg-slate-500",
           "transition-transform duration-1000 ease-out",
         )}
       >
-        {/* // className="flex transition-transform duration-1000 ease-out" */}
-        {/* // style={{ transform: `translateX(-${currentIndex * 100}%)` }} */}
-        {/* > */}
-        {/* {Array.of(products[products.length - 1], ...products, products[0]).map(
-          (product, index) => {
-            return (
-              <CarouselCard
-                key={product.label}
-                imgSrc={product.imgSrc}
-                label={product.label}
-                price={product.price}
-                className={
-                  (previousIndex === 0 &&
-                    currentIndex === products.length - 1) ||
-                  (previousIndex === products.length - 1 && currentIndex === 0)
-                    ? "z-[1000] block translate-x-full"
-                    : "hidden"
-                }
-                style={{
-                  transform: `translateX(-${currentIndex * 100}%)`,
-                }}
-                index={index}
-                currentIndex={currentIndex}
-                prevIndex={previousIndex}
-                lastIndex={products.length - 1}
-              />
-            );
-          },
-        )} */}
-
         {slides.map((product, index) => (
-          // {/* // <div
-          //     //   key={product.label}
-          //     //   // className="min-w-full"
-          //     //   // style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-          //     //   className={classNames(
-          //     //     "block w-full min-w-full",
-          //     //     // index === currentIndex && "z-[100]",
-          //     //     // "transition-transform duration-1000 ease-out",
-          //     //     // `translate-x-[(${(index - (products.length - index) + currentIndex) * 100}%)]`,
-          //     //     // `translate-x-[${currentIndex * 100}%]`,
-          //     //     // index - (currentIndex === 0 ? 5 : currentIndex) === -1
-          //     //     // ? // ? `translateX(-${currentIndex * 100}%)`
-          //     //     // `-translate-x-full`
-          //     //     // : `translate-x-[(${(index - currentIndex) * 100}%)]`,
-          //     //     // : `translateX(-${currentIndex * 100}%)`,
-          //     //   )}
-          //     // >
           <CarouselCard
             key={`${index - 1}-${product.label}`}
             imgSrc={product.imgSrc}
             label={product.label}
             price={product.price}
-            // className={
-            //   (previousIndex === 0 && currentIndex === products.length - 1) ||
-            //   (previousIndex === products.length - 1 && currentIndex === 0)
-            //     ? "hidden"
-            //     : "flex"
-            // }
-            // className={
-            //   (previousIndex === 0 && currentIndex === products.length - 1) ||
-            //   (previousIndex === products.length - 1 && currentIndex === 0)
-            //     ? "hidden"
-            //     : "flex"
-            // }
-            // style={{ transform: `translateX(-${(currentIndex + 1) * 100}%)` }}
             index={index - 1}
-            // currentIndex={currentIndex}
-            // prevIndex={previousIndex}
-            // lastIndex={products.length - 1}
           />
-          //   //   // </div>
         ))}
       </div>
-      {/* </div> */}
+
       {/* Left Arrow */}
       <div
-        // onClick={prevSlide}
         onClick={() => {
-          if (slideTimerRef.current) {
-            if (slideQueueRef.current[0] === p.length) {
-              slideQueueRef.current.push(
-                slideQueueRef.current[slideQueueRef.current.length] - 1,
-              );
-              // setLastTransition([indecies[1], p.length - 1]);
-            } else {
-              clearTimer(slideTimerRef.current);
-              slideContainerRef.current!.classList.replace(
-                "duration-1000",
-                "duration-0",
-              );
-              slideContainerRef.current!.style.transform = `translateX(-${(p.length - 1) * 100}%)`;
-              setLastTransition([indecies[1], p.length - 2]);
-            }
+          // TODO: trying to smooth interval if clicking through ends of products quickly
+          // if (slideTimerRef.current) {
+          //   if (slideQueueRef.current[0] === p.length) {
+          //     slideQueueRef.current.push(
+          //       slideQueueRef.current[slideQueueRef.current.length] - 1,
+          //     );
+          //   } else {
+          //     clearTimer(slideTimerRef);
+          //     slideContainerRef.current!.classList.replace(
+          //       "duration-1000",
+          //       "duration-0",
+          //     );
+          //     slideContainerRef.current!.style.transform = `translateX(-${(p.length - 1) * 100}%)`;
+          //     setLastTransition([indecies[1], p.length - 2]);
+          //   }
 
-            slideQueueRef.current = [];
-            return;
-          }
-
+          //   slideQueueRef.current = [];
+          //   return;
+          // }
+          clearTimer(autoplayTimerRef);
           changeSlide(indecies[1] - 1);
         }}
         className="absolute left-5 top-[50%] hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block"
@@ -247,27 +129,28 @@ function Carousel() {
       </div>
       {/* Right Arrow */}
       <div
-        // onClick={nextSlide}
         onClick={() => {
-          if (slideTimerRef.current) {
-            clearTimer(slideTimerRef.current);
+          // TODO: trying to smooth interval if clicking through ends of products quickly
 
-            if (slideQueueRef.current[0] < 0) {
-              setLastTransition([indecies[1], 0]);
-            } else {
-              slideContainerRef.current!.classList.replace(
-                "duration-1000",
-                "duration-0",
-              );
-              slideContainerRef.current!.style.transform = `translateX(-${100}%)`;
-              slideQueueRef.current.push(1);
-              setLastTransition([indecies[1], 1]);
-            }
+          // if (slideTimerRef.current) {
+          //   clearTimer(slideTimerRef);
 
-            slideQueueRef.current = [];
-            return;
-          }
+          //   if (slideQueueRef.current[0] < 0) {
+          //     setLastTransition([indecies[1], 0]);
+          //   } else {
+          //     slideContainerRef.current!.classList.replace(
+          //       "duration-1000",
+          //       "duration-0",
+          //     );
+          //     slideContainerRef.current!.style.transform = `translateX(-${100}%)`;
+          //     slideQueueRef.current.push(1);
+          //     setLastTransition([indecies[1], 1]);
+          //   }
 
+          //   slideQueueRef.current = [];
+          //   return;
+          // }
+          clearTimer(autoplayTimerRef);
           changeSlide(indecies[1] + 1);
         }}
         className="absolute right-5 top-[50%] hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block"
@@ -284,14 +167,9 @@ function Carousel() {
             return (
               <div
                 key={index}
-                // className={`h-3 w-3 rounded-full bg-white transition-all hover:cursor-pointer ${currentIndex === index ? "p-2" : "bg-opacity-50"}`}
                 className={`h-3 w-3 rounded-full bg-white transition-all hover:cursor-pointer ${indecies[1] === index ? "p-2" : "bg-opacity-50"}`}
-                // onClick={() => buttonClick(index)}
                 onClick={() => {
-                  // if (slideTimerRef.current) {
-                  //   slideQueueRef.current = slideQueueRef.current ? 0 : 1;
-                  //   return;
-                  // }
+                  clearTimer(autoplayTimerRef);
                   changeSlide(index);
                 }}
               ></div>
