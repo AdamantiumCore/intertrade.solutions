@@ -21,7 +21,7 @@ const instrumentSans = Instrument_Sans({
 
 export const metadata: Metadata = {
   title: "InterTrade",
-  description: "The world is your market",
+  description: "The world is your marketplace",
 };
 
 export default function RootLayout({
@@ -34,7 +34,9 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSans.variable} ${afacad.variable} ${lexend.variable}`}
     >
-      <body className="font-instrument h-full">{children}</body>
+      <body className="font-instrument h-full">
+        {children}
+      </body>
     </html>
   );
 }
