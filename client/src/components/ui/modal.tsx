@@ -1,29 +1,13 @@
 "use client"
 
 import {
-    forwardRef,
     useRef,
-    ForwardRefExoticComponent,
-    LegacyRef,
     useState,
     useEffect
 }
 from "react";
 import { createPortal } from "react-dom";
 
-type Props = {
-    open: boolean,
-    children: React.ReactNode,
-    handleClose: any,
-    ref: LegacyRef<any>
-}
-
-// const Modal: ForwardRefExoticComponent<Props> = 
-// forwardRef(function Modal({
-//     open,
-//     children,
-//     handleClose
-// }, ref) {
 function Modal({
     open,
     children,
@@ -59,10 +43,10 @@ function Modal({
     }, [isOpen]);
 
     return mounted ? createPortal(
-        <dialog ref={dialog} className="">
+        <dialog ref={dialog} className="relative rounded-lg">
             {children}
             <form method="dialog">
-                <button onClick={handleClose}>Close</button>
+                <a href="#" onClick={handleClose} className="transition ease-in-out delay-150 w-max text-purple-600 hover:text-purple-300 absolute top-0 right-0 p-5">Close</a>
             </form>
         </dialog>,
         document.body
