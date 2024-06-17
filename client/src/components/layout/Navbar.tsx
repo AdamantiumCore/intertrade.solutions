@@ -11,7 +11,6 @@ import TriangleChevron from "../icons/TriangleChevronIcon";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
-  const dialog = useRef<typeof Modal>(null);
   const [open, setOpen] = useState(false);
 
   function handleLoginOpen() {
@@ -28,7 +27,7 @@ export default function Navbar() {
         open={open}
         handleClose={handleClose}
       >
-        <Login />
+        <Login reset={open} />
       </Modal>
       <nav className="relative hidden h-20 w-full flex-none lg:block">
         <div className="flex items-center justify-between py-3 pl-[46px] pr-[50px]">

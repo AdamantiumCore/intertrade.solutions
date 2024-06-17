@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import no_image from '../assets/no_image.png';
 
-const Login = () => {
+const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
     const [isRegistration, setIsRegistration] = useState(false);
     const [isValidating, setIsValidating] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,12 +12,13 @@ const Login = () => {
     const [passwordResetSent, setPasswordResetSent] = useState(false);
 
     useEffect(() => {
+        // reset form on modal open
         setIsRegistration(false);
         setIsValidating(false);
         setIsLoggedIn(false);
         setForgotPassword(false);
         setPasswordResetSent(false);
-    }, []);
+    }, [reset]);
 
     function handleLogin() {
         // compare login info with database values
