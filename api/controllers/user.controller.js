@@ -11,3 +11,9 @@ export const updateUser = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
     await userService.deleteUser(req, res, next);
 }
+export const verifyEmail = async (req, res, next) => {
+    await userService.verifyEmail(req, res, next);
+}
+export const forgotPassword = async (req, res, next) => {
+    await userService.forgotPassword(req, res, next);
+}
