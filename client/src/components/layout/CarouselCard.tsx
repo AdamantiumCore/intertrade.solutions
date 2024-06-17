@@ -1,27 +1,44 @@
-interface CardProps {
-    imgSrc: string;
-    label: string;
-    price: string;
-  }
+import classNames from "classnames";
+import { CSSProperties } from "react";
 
-  const CarouselCard: React.FC<CardProps> = ({imgSrc, label, price}) => {
+interface CardProps {
+  imgSrc: string;
+  label: string;
+  price: string;
+  index: number;
+  className?: string;
+  style?: CSSProperties;
+}
+
+const CarouselCard: React.FC<CardProps> = ({
+  imgSrc,
+  label,
+  price,
+  className,
+  style,
+}) => {
   return (
-    <div className="relative  h-[80vh] overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-center object-cover w-screen"
- style={{ backgroundImage: `url(${imgSrc})` }} 
-       >
-        </div>
-      <div className="absolute inset-0 bg-black bg-opacity-50 flex  flex-col justify-center items-start text-white p-4">
-        <div className="w-1/2 flex flex-col gap-4 justify-center items-center">
+    <div
+      style={style}
+      className={classNames(
+        "relative block h-full w-full min-w-full",
+        className,
+      )}
+    >
+      <div
+        className="absolute inset-0 h-full w-screen bg-cover bg-center object-cover"
+        style={{ backgroundImage: `url(${imgSrc})` }}
+      ></div>
+      <div className="absolute inset-0 flex flex-col items-start  justify-center bg-black bg-opacity-50 p-4 text-white">
+        <div className="flex w-1/2 flex-col items-center justify-center gap-4">
           <div>
-        <h2 className="text-3xl font-bold font-aracad">{label}</h2>
-        <p className="text-lg mt-2 ">{price}</p>
+            <h2 className="font-afacad text-3xl font-bold">{label}</h2>
+            <p className="mt-2 text-lg ">{price}</p>
           </div>
         </div>
       </div>
     </div>
-    
-  )
-}
+  );
+};
 
 export default CarouselCard;
