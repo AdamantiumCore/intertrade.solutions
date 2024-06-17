@@ -1,4 +1,3 @@
-// src/app/store.tsx
 import React from "react";
 import StoreCard from "@/components/layout/StoreCard";
 

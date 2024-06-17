@@ -1,5 +1,5 @@
 import Navbar from "./layout/Navbar";
-import StoresPage from "@/app/store"; // StoresPage를 import합니다.
+import StoresPage from "@/app/store";
 
 function HomePage() {
   return (
