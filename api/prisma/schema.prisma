@@ -18,6 +18,8 @@ model Users {
   email      String             @db.VarChar(255) @unique
   username   String             @db.VarChar(255) @unique
   password   String             @db.VarChar(255)
+  validation_code String        @db.VarChar(255)
+  isValidated Boolean           @default(false)
   created    DateTime           @default(now())
   modified   DateTime           @updatedAt
   wishlists  Wishlists?
