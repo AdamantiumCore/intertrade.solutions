@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Afacad, Lexend, Instrument_Sans } from "next/font/google";
 import "./globals.css";
+import ClientProvider from "@/providers/client-providers";
 
 const afacad = Afacad({
   subsets: ["latin"],
@@ -34,7 +35,11 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSans.variable} ${afacad.variable} ${lexend.variable}`}
     >
-      <body className="font-instrument h-full">{children}</body>
+      <body className="font-instrument h-full">
+        <ClientProvider>
+          {children}
+        </ClientProvider>
+      </body>
     </html>
   );
 }
