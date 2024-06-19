@@ -6,6 +6,10 @@ import { AddressSpec } from './specs/AddressSpec.js';
 console.log('Running playground ....')
 
 async function main() {
+
+    const prisma = db()
+    await prisma.users.deleteMany()
+
     const usersPath = path.join(process.cwd(), 'data', 'users')
     const addressesPath = path.join(process.cwd(), 'data', 'addresses')
 
