@@ -2,6 +2,7 @@ import {ProblemDetails, Violation} from "../types/problemDetails.js";
 import {Validation} from "../errors/validation.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
 import {Conflict} from "../errors/Conflict.js";
+import { UnprocessableContent } from "../errors/UnprocessableContent.js";
 
 export const globalErrorHandler = () => {
   return (err, req, res, _next) => {
@@ -28,7 +29,15 @@ export const globalErrorHandler = () => {
         detail: err.message
       }));
     }
-
+    
+    if (err instanceof UnprocessableContent) {
+      return buildErrorResponse(res, new ProblemDetails({
+        type: err.type,
+        title: 'InvalidData',
+        status: 422,
+        detail: err.message
+      }));
+    }
     return buildErrorResponse(res, new ProblemDetails({
       type: 'api/internal-server-error',
       title: 'Internal Server Error',

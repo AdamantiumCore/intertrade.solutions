@@ -17,7 +17,6 @@ export const login = async (req, res, next) => {
   if (!isPasswordValid) {
     return next(new Unauthorized("Invalid Credentials"));
   }
-
   const token = await generateToken({ sub: userId });
   return res.cookie("token", token, {httpOnly: true}).status(200).json({message: "Successful Login!"});
 };
@@ -40,9 +39,7 @@ export const register = async (req, res, next) => {
   } = req.body;
 
   const isUserEmailAlreadyExist = await userRepository.findUserByEmail(email);
-  const isUserUsernameAlreadyExist = await userRepository.findUserByUsername(
-    username
-  );
+  const isUserUsernameAlreadyExist = await userRepository.findUserByUsername(username);
   const addressData = {
     address,
     city,
@@ -75,6 +72,5 @@ export const register = async (req, res, next) => {
       password: hashedPassword,
     };
   await userRepository.addUser(userData);
-
   return res.status(201).json({message: "Successful Registered!"});
 };
