@@ -1,11 +1,13 @@
 import { QueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useState } from "react";
 
-const useQueryClient  = () => {
-    return useMemo(() => {
-        const queryClient  = new QueryClient()
+const useQueryClient = () => {
+    const [client] = useState(() => {
+        const queryClient = new QueryClient()
         return queryClient;
-    }, [])
+    })
+
+    return client;
 }
 
 export default useQueryClient;
