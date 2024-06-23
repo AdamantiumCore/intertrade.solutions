@@ -18,6 +18,9 @@ function Carousel() {
   const slideQueueRef = useRef<Array<number>>([]);
 
   function changeSlide(num: number) {
+    if (num < 0 || num >= products.length) {
+      return; // check point of the carousel
+    }
     if (
       num === products.length || // clicked next past last product
       num < 0 || // clicked prev past first product
