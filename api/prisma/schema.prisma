@@ -12,8 +12,7 @@ model Users {
   lastName   String             @db.VarChar(50)
   middle     String?            @db.VarChar(50)
   avatar     String?            @db.VarChar(500)
-  addressID  String             @default(uuid()) @unique
-  address    Addresses          @relation(fields: [addressID], references: [id])
+  addresses  Addresses[]
   phone      String?            @db.VarChar(20)
   email      String             @db.VarChar(255) @unique
   username   String             @db.VarChar(255) @unique
@@ -44,13 +43,14 @@ model Addresses {
   country        String   @db.VarChar(150)
   created        DateTime @default(now())
   modified       DateTime @updatedAt
-  stores         Stores? // relations
-  user           Users?
+  stores         Stores?
+  userId         String
+  user           Users?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 model Stores {
   id          String            @id @default(uuid()) @unique
   name        String            @db.VarChar(500) @unique
-  address     Addresses         @relation(fields: [addressId], references: [id]) // relation
+  address     Addresses         @relation(fields: [addressId], references: [id], onDelete: Cascade)
   addressId   String            @default(uuid()) @unique
   logo        String?           @db.VarChar(500)
   tagline     String?           @db.VarChar(500)

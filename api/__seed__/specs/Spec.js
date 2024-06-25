@@ -11,7 +11,7 @@ export class Spec {
         return this;
     }
 
-    using(prisma) {
+    usingConnection(prisma) {
         this.prisma = prisma;
         return this;
     }

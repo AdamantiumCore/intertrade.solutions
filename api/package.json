@@ -11,10 +11,12 @@
     "docker:stop": "docker-compose -f docker-compose.dev.yml --env-file .docker.env stop",
     "docker:down": "docker-compose -f docker-compose.dev.yml --env-file .docker.env down -v",
     "docker:echo": "docker-compose -f docker-compose.dev.yml --env-file .docker.env ps",
+    "docker:reset": "npm run docker:down && npm run docker:start",
     "prisma:generate": "npx prisma generate",
     "prisma:db:push": "npx prisma db push",
     "prisma:studio": "npx prisma studio",
-    "prisma:playground": "nodemon prisma/playground.js"
+    "prisma:playground": "nodemon prisma/playground.js",
+    "prisma:seed": "node __seed__/playground.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.6",
     "@babel/preset-env": "^7.24.6",
+    "@faker-js/faker": "^8.4.1",
     "@testcontainers/mysql": "^10.9.0",
     "babel-jest": "^29.7.0",
     "dotenv-cli": "^7.4.2",
