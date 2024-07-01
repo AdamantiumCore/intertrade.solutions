@@ -1,7 +1,7 @@
 import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import InterTradeLogo from "../common/Logo";
 import TriangleChevron from "../icons/TriangleChevronIcon";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import SearchBar from "../common/SearchBar";
 
 export default function Navbar() {
   return (
@@ -19,13 +19,7 @@ export default function Navbar() {
             />
           </div>
           <div className="relative h-10 w-1/2">
-            <input
-              placeholder="Search for anything in the world..."
-              className="h-full w-full rounded-full border-[1.5px] border-it-gray-400 pl-5 font-afacad outline-none placeholder:text-it-gray-300 focus:border-it-purple-200"
-            />
-            <div className="absolute right-1 top-1 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-it-purple-300 hover:bg-[#6944DC]">
-              <MagnifyingGlassIcon className="h-[22px] w-[22px] stroke-2 text-white" />
-            </div>
+            <SearchBar placeholder="Search for anything in the world..."/> {/*SearchBar*/}
           </div>
         </div>
         <div className="flex justify-end">
