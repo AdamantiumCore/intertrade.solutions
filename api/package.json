@@ -26,6 +26,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.13",
     "prisma": "^5.14.0"
   },
   "devDependencies": {

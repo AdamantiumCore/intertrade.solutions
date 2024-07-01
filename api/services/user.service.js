@@ -3,6 +3,7 @@ import { UnexpectedError } from "../errors/UnexpectedError.js";
 import { hashPassword } from "../utilities/password-utils.js";
 import * as userRepository from "../repositories/user.repository.js";
 import * as addressService from "../services/address.service.js";
+import * as emailService from "../services/email.service.js";
 export const getUsers = async (res, next) => {
   var allUsers = null;
   try {
@@ -130,3 +131,22 @@ export const deleteUser = async (req, res, next) => {
   }
   res.status(200).json({ message: "Successfully deleted user!" });
 };
+export const verifyEmail = async (req, res, next) => {
+  const userId = req.params.id;
+  const user = await userRepository.findUserById(userId);
+  if(!user){
+    return next()//we need InvalidUser error Here
+  }
+  emailService.sendVerifyUserEmail(user.email, user.username, user.verificationCode);
+  res.status(200).json({message: "Verify Email User is sent!"});
+}
+export const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+  const userId = await userRepository.findUserByEmail(email);
+  if(!userId){
+    return next()//we need InvalidEmail because User with this email does not exist in our database error Here
+  }
+  const user = await userRepository.findUserById(userId);
+  emailService.sendForgotPasswordEmail(user.email, user.username);
+  res.status(200).json({message: "Forgot Password Email has been sent!"});
+}
