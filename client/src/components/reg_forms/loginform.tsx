@@ -56,13 +56,13 @@ const LoginForm = ({
         />
       </FormControl>
 
-      <Link href="#" onClick={setLoginState("ForgotPassword")}>
+      <Link href="#" onClick={() => setLoginState("ForgotPassword")}>
         Forgot Password?
       </Link>
-      <Button type="submit" onClick={handleLogin}>
+      <Button type="submit" onClick={() => handleLogin()}>
         Login
       </Button>
-      <Link href="#" onClick={setLoginState("Register")}>
+      <Link href="#" onClick={() => setLoginState("Register")}>
         Need to Sign Up?
       </Link>
     </Form>
