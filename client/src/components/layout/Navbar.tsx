@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 import Modal from '../ui/modal';
 import Login from '../login';

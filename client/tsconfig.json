@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["@/**/*.js", "next-env.d.ts", "**/*.ts", "**/*.tsx", "@/**/*.tsx", ".next/types/**/*.ts", "src/components/ui/modal.tsx"],
+  "include": ["@/**/*.js", "next-env.d.ts", "**/*.ts", "**/*.tsx", "@/**/*.tsx", ".next/types/**/*.ts", "src/components/ui/*.tsx"],
   "exclude": ["node_modules"]
 }
