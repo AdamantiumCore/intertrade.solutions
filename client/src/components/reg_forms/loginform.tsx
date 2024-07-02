@@ -35,9 +35,9 @@ const LoginForm = ({ setLoginState }: Readonly<{
                 />
             </FormControl>
 
-            <Link href="#" onClick={setLoginState("ForgotPassword")}>Forgot Password?</Link>
-            <Button type="submit" onClick={handleLogin}>Login</Button>
-            <Link href="#" onClick={setLoginState("Register")}>Need to Sign Up?</Link>
+            <Link href="#" onClick={() => setLoginState("ForgotPassword")}>Forgot Password?</Link>
+            <Button type="submit" onClick={() => handleLogin()}>Login</Button>
+            <Link href="#" onClick={() => setLoginState("Register")}>Need to Sign Up?</Link>
         </Form>
     );
 }
