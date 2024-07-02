@@ -4,7 +4,7 @@ const Button = ({
     children,
 }: Readonly <{
     type: any,
-    onClick: any,
+    onClick?: any,
     children: React.ReactNode,
 }>) => {
     return (

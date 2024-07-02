@@ -1,6 +1,4 @@
 import Form from "../ui/form"; // changed from importing from "../ui/form/form";
-import FormControl from "../ui/form/form-control";
-import FormInput from "../ui/form/form-input";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
 
@@ -13,7 +11,7 @@ const ValidateEmailForm = ({
 }: Readonly<{
   setLoginState: any;
 }>) => {
-  const validateEmailSchema: yup.Schema<ValidateEmailFormSchema> = yup
+  const validateEmailSchema: yup.ObjectSchema<ValidateEmailFormSchema> = yup
     .object()
     .shape({
       verificationCode: yup
@@ -31,28 +29,27 @@ const ValidateEmailForm = ({
     control,
     setValue,
     trigger,
-  } = useForm<any>({
+  } = useForm<ValidateEmailFormSchema>({
     defaultValues: { verificationCode: "" },
-    // schema: validateEmailSchema,
+    schema: validateEmailSchema,
   });
 
-  const testWatch = watch("verificationCode");
-
+  const testWatch = watch("verificationCode"); // example of watch which updates on field change
   console.log("WATCHING: ", testWatch);
 
   return (
     <Form className="flex flex-col items-center gap-10">
       <h2 className="w-max text-2xl font-semibold">Validate Email</h2>
 
-      <FormControl>
-        <FormInput
-          name="verficationCode"
-          id="verficationCode"
+      <Form.Control>
+        <Form.Input
+          name="verificationCode"
+          id="verificationCode"
           type="text"
           placeholder="Verification Code"
           control={control}
         />
-      </FormControl>
+      </Form.Control>
 
       <Button type="submit" onClick={() => setLoginState("Login")}>
         Submit

@@ -1,5 +1,4 @@
 import {
-  DeepPartial,
   FieldValues,
   useForm as useReactHookForm,
   UseFormProps,
@@ -11,13 +10,12 @@ export { yup };
 
 export function useForm<TFieldValues extends FieldValues>({
   defaultValues,
-//   schema,
+  schema,
   config,
-  mode = "onBlur",
+  mode = "onChange",
 }: {
-    // defaultValues: any;
-  defaultValues: DeepPartial<TFieldValues> | any;
-//   schema: yup.Schema<TFieldValues>;
+  defaultValues: DefaultValues<TFieldValues>;
+  schema: yup.ObjectSchema<TFieldValues>;
   config?: Omit<
     UseFormProps<TFieldValues, {}>,
     "schema | defaultValues | resolver"
@@ -27,12 +25,11 @@ export function useForm<TFieldValues extends FieldValues>({
   const configMerge = {
     mode,
     reValidateMode: "onChange" as const,
-    defaultValues: defaultValues as any,
-    // defaultValues: defaultValues as Partial<DeepPartial<TFieldValues>>,
-    // defaultValues: defaultValues as DefaultValues<TFieldValues>,
-    // resolver: yupResolver(schema),
+    defaultValues: defaultValues as DefaultValues<TFieldValues>,
+
+    resolver: yupResolver(schema),
     ...config,
   };
 
-  return useReactHookForm<TFieldValues>(configMerge);
+  return useReactHookForm<TFieldValues>(configMerge as TFieldValues | any); // might need to be changed
 }
