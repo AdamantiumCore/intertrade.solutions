@@ -56,7 +56,7 @@ const LoginForm = ({
 
   async function handleFormSubmit(data: any) {
     console.log("SUBMIT LOGIN FORM ", data);
-    // handleLogin();
+    handleLogin();
   }
 
   return (

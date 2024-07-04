@@ -61,7 +61,7 @@ export default function Navbar() {
                 <ShoppingCartIcon className="h-6 w-6" />
               </li>
             </ul>
-            <a onClick={handleLoginOpen} className="ml-8 whitespace-nowrap font-lexend text-base hover:text-it-purple-300 hover:brightness-75 cursor-pointer">
+            <a onClick={() => handleLoginOpen()} className="ml-8 whitespace-nowrap font-lexend text-base hover:text-it-purple-300 hover:brightness-75 cursor-pointer">
               Sign In
             </a>
           </div>

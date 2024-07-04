@@ -3,7 +3,7 @@ import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
 
 export interface ValidateEmailFormSchema {
-  verificationCode: string;
+  validationCode: string;
 }
 
 const ValidateEmailForm = ({
@@ -11,10 +11,18 @@ const ValidateEmailForm = ({
 }: Readonly<{
   setLoginState: any;
 }>) => {
+  function handleValidateEmail() {
+    setLoginState("Login");
+  }
+
+  const validateEmailFormDefaultVals = {
+    validationCode: "",
+  };
+
   const validateEmailSchema: yup.ObjectSchema<ValidateEmailFormSchema> = yup
     .object()
     .shape({
-      verificationCode: yup
+      validationCode: yup
         .string()
         .required("Code Required")
         //   .min(5, "Code must be at least X length"), // could add something like this but actually not great for security; leaving for example option
@@ -30,30 +38,38 @@ const ValidateEmailForm = ({
     setValue,
     trigger,
   } = useForm<ValidateEmailFormSchema>({
-    defaultValues: { verificationCode: "" },
+    defaultValues: { validationCode: "" },
     schema: validateEmailSchema,
   });
 
-  const testWatch = watch("verificationCode"); // example of watch which updates on field change
+  const testWatch = watch("validationCode"); // example of watch which updates on field change
   console.log("WATCHING: ", testWatch);
 
+  async function handleFormSubmit(data: any) {
+    console.log("SUBMIT VALIDATE EMAIL FORM ", data);
+    handleValidateEmail();
+  }
+
   return (
-    <Form className="flex flex-col items-center gap-10">
+    <Form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="flex flex-col items-center gap-10"
+    >
       <h2 className="w-max text-2xl font-semibold">Validate Email</h2>
 
       <Form.Control>
         <Form.Input
-          name="verificationCode"
-          id="verificationCode"
+          name="validationCode"
+          id="validationCode"
           type="text"
-          placeholder="Verification Code"
+          placeholder="Validation Code"
           control={control}
+          aria-describedby="validationcode-error"
         />
+        <Form.Error message={errors?.validationCode?.message} id="validationcode-error" />
       </Form.Control>
 
-      <Button type="submit" onClick={() => setLoginState("Login")}>
-        Submit
-      </Button>
+      <Button type="submit">Submit</Button>
     </Form>
   );
 };
