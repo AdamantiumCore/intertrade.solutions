@@ -20,7 +20,7 @@ function Carousel() {
   function changeSlide(num: number) {
     if (
       num === products.length || // clicked next past last product
-      num < 0 || // clicked prev past first product
+      num < 0 || 
       Math.abs(num - indecies[1]) === p.length - 1 // clicked dot selector to go from first to last or vice-versa
     ) {
       const toLast: boolean =
@@ -98,25 +98,7 @@ function Carousel() {
       {/* Left Arrow */}
       <div
         onClick={() => {
-          // TODO: trying to smooth interval if clicking through ends of products quickly
-          // if (slideTimerRef.current) {
-          //   if (slideQueueRef.current[0] === p.length) {
-          //     slideQueueRef.current.push(
-          //       slideQueueRef.current[slideQueueRef.current.length] - 1,
-          //     );
-          //   } else {
-          //     clearTimer(slideTimerRef);
-          //     slideContainerRef.current!.classList.replace(
-          //       "duration-1000",
-          //       "duration-0",
-          //     );
-          //     slideContainerRef.current!.style.transform = `translateX(-${(p.length - 1) * 100}%)`;
-          //     setLastTransition([indecies[1], p.length - 2]);
-          //   }
 
-          //   slideQueueRef.current = [];
-          //   return;
-          // }
           clearTimer(autoplayTimerRef);
           changeSlide(indecies[1] - 1);
         }}
@@ -130,26 +112,6 @@ function Carousel() {
       {/* Right Arrow */}
       <div
         onClick={() => {
-          // TODO: trying to smooth interval if clicking through ends of products quickly
-
-          // if (slideTimerRef.current) {
-          //   clearTimer(slideTimerRef);
-
-          //   if (slideQueueRef.current[0] < 0) {
-          //     setLastTransition([indecies[1], 0]);
-          //   } else {
-          //     slideContainerRef.current!.classList.replace(
-          //       "duration-1000",
-          //       "duration-0",
-          //     );
-          //     slideContainerRef.current!.style.transform = `translateX(-${100}%)`;
-          //     slideQueueRef.current.push(1);
-          //     setLastTransition([indecies[1], 1]);
-          //   }
-
-          //   slideQueueRef.current = [];
-          //   return;
-          // }
           clearTimer(autoplayTimerRef);
           changeSlide(indecies[1] + 1);
         }}
