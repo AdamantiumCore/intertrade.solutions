@@ -46,7 +46,7 @@ function FormInput<T extends FieldValues>({
       value={formattedValue || ""}
       className={classNames(
         fieldState.error
-          ? "border-rose-500 outline-none ring-rose-400 placeholder:text-rose-400/75 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-400"
+          ? "border-rose-500 rounded outline-none ring-rose-400 placeholder:text-rose-400/75 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-400 p-1"
           : "border-zinc-100 rounded outline-1 outline-slate-500 ring-1 ring-slate-500 p-1",
         className,
       )}
