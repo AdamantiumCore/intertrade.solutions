@@ -8,7 +8,7 @@ import Login from '../login';
 import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import InterTradeLogo from "../common/Logo";
 import TriangleChevron from "../icons/TriangleChevronIcon";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import SearchBar from "../common/SearchBar";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -34,23 +34,8 @@ export default function Navbar() {
           <div>
             <InterTradeLogo className="h-8" />
           </div>
-          <div className="flex flex-auto justify-center space-x-8">
-            <div className="group flex items-center hover:text-it-teal-300 hover:brightness-90">
-              <h5 className="mr-1 font-lexend tracking-[0.018em]">Categories</h5>
-              <TriangleChevron
-                className="text-it-gray-600 mt-0.5 h-5 w-5 group-hover:text-it-teal-300"
-                direction="down"
-              />
-            </div>
-            <div className="relative h-10 w-1/2">
-              <input
-                placeholder="Search for anything in the world..."
-                className="h-full w-full rounded-full border-[1.5px] border-it-gray-400 pl-5 font-afacad outline-none placeholder:text-it-gray-300 focus:border-it-purple-200"
-              />
-              <div className="absolute right-1 top-1 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-it-purple-300 hover:bg-[#6944DC]">
-                <MagnifyingGlassIcon className="h-[22px] w-[22px] stroke-2 text-white" />
-              </div>
-            </div>
+          <div className="relative h-10 w-1/2">
+            <SearchBar placeholder="Search for anything in the world..."/> {/*SearchBar*/}
           </div>
           <div className="flex justify-end">
             <ul className="flex space-x-5">
