@@ -1,4 +1,5 @@
-import Form from "../ui/form"; // changed from importing from "../ui/form/form";
+import Form from "../ui/form";
+import Label from "../ui/Label";
 import Link from "../ui/Link";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
@@ -12,24 +13,26 @@ export interface RegistrationFormSchema {
   confirmPassword: string;
   email: string;
   phone?: string;
+  avatar_file?: string;
 }
-
-const registrationFormDefaultVals = {
-  firstname: "",
-  lastname: "",
-  middlename: "",
-  username: "",
-  password: "",
-  confirmPassword: "",
-  email: "",
-  phone: "",
-};
 
 const RegistrationForm = ({
   setLoginState,
 }: Readonly<{
   setLoginState: any;
 }>) => {
+  const registrationFormDefaultVals = {
+    firstname: "",
+    lastname: "",
+    middlename: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
+    phone: "",
+    avatar_file: "",
+  };
+
   const registrationSchema: yup.ObjectSchema<RegistrationFormSchema> = yup
     .object()
     .shape({
@@ -41,6 +44,7 @@ const RegistrationForm = ({
       confirmPassword: yup.string().required("Confirm Password required"),
       email: yup.string().required("Email required"),
       phone: yup.string(),
+      avatar_file: yup.string(),
     });
 
   const {
@@ -72,84 +76,99 @@ const RegistrationForm = ({
     >
       <h2 className="w-fit text-2xl font-semibold">Sign Up</h2>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="firstname">First Name</Label>
         <Form.Input
           name="firstname"
           id="firstname"
           control={control}
           type="text"
           placeholder="First Name"
+          aria-describedby="firstname-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.firstname?.message} id="firstname-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="lastname">Last Name</Label>
         <Form.Input
           name="lastname"
           id="lastname"
           control={control}
           type="text"
           placeholder="Last Name"
+          aria-describedby="lastname-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.lastname?.message} id="lastname-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="middlename">Middle Name / Initial</Label>
         <Form.Input
           name="middlename"
           id="middlename"
           control={control}
           type="text"
           placeholder="Middle Name/Initial"
+          aria-describedby="middlename-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.middlename?.message} id="middlename-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="username">Username</Label>
         <Form.Input
           name="username"
           id="username"
           control={control}
           type="text"
           placeholder="Username"
+          aria-describedby="username-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.username?.message} id="username-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="password">Password</Label>
         <Form.Input
           name="password"
           id="password"
           control={control}
           type="password"
           placeholder="Password"
+          aria-describedby="password-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.password?.message} id="password-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="confirmPassword">Confirm Password</Label>
         <Form.Input
           name="confirmPassword"
           id="confirmPassword"
           control={control}
           type="password"
           placeholder="Confirm Password"
+          aria-describedby="confirmPassword-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.confirmPassword?.message} id="confirmPassword-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="email">Email Address</Label>
         <Form.Input
           name="email"
           id="email"
           control={control}
           type="email"
           placeholder="Email Address"
+          aria-describedby="email-error"
         />
-        {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
+        <Form.Error message={errors?.email?.message} id="email-error" />
       </Form.Control>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="phone">Phone Number</Label>
         <Form.Input
           name="phone"
           id="phone"
@@ -160,19 +179,18 @@ const RegistrationForm = ({
         {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
       </Form.Control>
 
-      <label htmlFor="avatar_file" className="">
-        Choose an Avatar
-      </label>
-      <input
-        id="avatar_file"
-        type="file"
-        placeholder="Avatar"
-        className="w-3/4 rounded-md border-2 border-solid border-gray-600 p-5"
-      />
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="avatar_file">Choose an Avatar</Label>
+        <Form.Input
+          name="avatar_file"
+          id="avatar_file"
+          control={control}
+          type="file"
+          placeholder="Avatar"
+          // className="w-3/4 rounded-md border-2 border-solid border-gray-600 p-5"
+        />
+      </Form.Control>
 
-      {/* <Button type="submit" onClick={() => setLoginState("Validate")}>
-        Submit
-      </Button> */}
       <Button type="submit">Submit</Button>
       <Link href="#" onClick={() => setLoginState("Login")}>
         Already have an account? Sign In.

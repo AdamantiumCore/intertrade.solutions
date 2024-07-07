@@ -1,4 +1,5 @@
-import Form from "../ui/form"; // changed from importing from "../ui/form/form";
+import Form from "../ui/form";
+import Label from "../ui/Label";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
 
@@ -57,8 +58,9 @@ const ValidateEmailForm = ({
     >
       <h2 className="w-max text-2xl font-semibold">Validate Email</h2>
 
-      <Form.Control>
-        <Form.Input
+      <Form.Control className="flex flex-col">
+      <Label htmlFor="validationCode">Validation Code</Label>
+      <Form.Input
           name="validationCode"
           id="validationCode"
           type="text"

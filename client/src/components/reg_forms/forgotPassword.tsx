@@ -1,5 +1,6 @@
 import Form from "../ui/form";
 import FormInput from "../ui/form/form-input";
+import Label from "../ui/Label";
 import Link from "../ui/Link";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
@@ -50,7 +51,8 @@ const ForgotPasswordForm = ({ setLoginState }: Readonly<{
         >
             <h2 className="w-max text-2xl font-semibold">Password Reset</h2>
 
-            <Form.Control>
+            <Form.Control className="flex flex-col">
+                <Label htmlFor="email">Email Address</Label>
                 <FormInput
                     name="email"
                     id="email"

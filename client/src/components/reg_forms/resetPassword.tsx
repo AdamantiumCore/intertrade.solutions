@@ -1,4 +1,5 @@
 import Form from "../ui/form";
+import Label from "../ui/Label";
 import Link from "../ui/Link";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
@@ -56,7 +57,8 @@ const ResetPasswordForm = ({ setLoginState }: Readonly<{
             onSubmit={handleSubmit(handleFormSubmit)}
             className="flex flex-col items-center gap-10"
         >
-            <Form.Control>
+            <Form.Control className="flex flex-col">
+                <Label htmlFor="tempPassword">Temp Password</Label>
                 <Form.Input
                     name="tempPassword"
                     id="tempPassword"
@@ -68,7 +70,8 @@ const ResetPasswordForm = ({ setLoginState }: Readonly<{
                 <Form.Error message={errors?.tempPassword?.message} id="temppassword-error" />
             </Form.Control>
 
-            <Form.Control>
+            <Form.Control className="flex flex-col">
+                <Label htmlFor="newPassword">New Password</Label>
                 <Form.Input
                     name="newPassword"
                     id="newPassword"
@@ -80,7 +83,8 @@ const ResetPasswordForm = ({ setLoginState }: Readonly<{
                 <Form.Error message={errors?.newPassword?.message} id="newpassword-error" />
             </Form.Control>
 
-            <Form.Control>
+            <Form.Control className="flex flex-col">
+                <Label htmlFor="newPasswordConfirm">Confirm New Password</Label>
                 <Form.Input
                     name="newPasswordConfirm"
                     id="newPasswordConfirm"

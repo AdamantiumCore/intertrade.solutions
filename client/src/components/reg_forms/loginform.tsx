@@ -1,4 +1,5 @@
-import Form from "../ui/form"; // changed from importing from "../ui/form/form";
+import Form from "../ui/form";
+import Label from "../ui/Label";
 import Link from "../ui/Link";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
@@ -66,7 +67,8 @@ const LoginForm = ({
     >
       <h2 className="w-max text-2xl font-semibold">Sign In</h2>
 
-      <Form.Control>
+      <Form.Control className="flex flex-col">
+        <Label htmlFor="username">Username</Label>
         <Form.Input
           name="username"
           id="username"
@@ -78,8 +80,9 @@ const LoginForm = ({
         <Form.Error message={errors?.username?.message} id="username-error" />
       </Form.Control>
 
-      <Form.Control>
-        <Form.Input
+      <Form.Control className="flex flex-col">
+      <Label htmlFor="username">Password</Label>
+      <Form.Input
           name="password"
           id="password"
           type="password"
@@ -93,9 +96,6 @@ const LoginForm = ({
       <Link href="#" onClick={() => setLoginState("ForgotPassword")}>
         Forgot Password?
       </Link>
-      {/* <Button type="submit" onClick={() => handleLogin()}>
-        Login
-      </Button> */}
       <Button type="submit">Login</Button>
       <Link href="#" onClick={() => setLoginState("Register")}>
         Need to Sign Up?

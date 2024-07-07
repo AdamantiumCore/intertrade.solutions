@@ -68,7 +68,7 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
                     <ValidateEmailForm setLoginState={setLoginState} />
                 }
             </div>
-            <div className="flex-1">
+            <div className="flex-1 hidden sm:inline">
                 <Image alt="No Image" src={no_image} className="w-[1024px] h-[1024pxobject-cover" />
             </div>
         </div>
