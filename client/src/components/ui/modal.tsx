@@ -43,7 +43,11 @@ function Modal({
     }, [isOpen]);
 
     return mounted ? createPortal(
-        <dialog ref={dialog} className="relative rounded-lg">
+        <dialog
+            ref={dialog}
+            className="relative rounded-lg"
+            aria-modal="true"
+        >
             {children}
             <form method="dialog">
                 <a href="#" onClick={handleClose} className="transition ease-in-out delay-150 w-max text-purple-600 hover:text-purple-300 absolute top-0 right-0 p-5">Close</a>
