@@ -22,7 +22,7 @@ const instrumentSans = Instrument_Sans({
 
 export const metadata: Metadata = {
   title: "InterTrade",
-  description: "The world is your market",
+  description: "The world is your marketplace",
 };
 
 export default function RootLayout({
