@@ -7,7 +7,6 @@ import { useForm, yup } from "@/lib/hooks/form/use-form";
 export interface RegistrationFormSchema {
   firstname: string;
   lastname: string;
-  middlename?: string;
   username: string;
   password: string;
   confirmPassword: string;
@@ -24,7 +23,6 @@ const RegistrationForm = ({
   const registrationFormDefaultVals = {
     firstname: "",
     lastname: "",
-    middlename: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -38,7 +36,6 @@ const RegistrationForm = ({
     .shape({
       firstname: yup.string().required("First name required"),
       lastname: yup.string().required("Last name required"),
-      middlename: yup.string(),
       username: yup.string().required("Username required"),
       password: yup.string().required("Password required"),
       confirmPassword: yup.string().required("Confirm Password required"),
@@ -100,19 +97,6 @@ const RegistrationForm = ({
           aria-describedby="lastname-error"
         />
         <Form.Error message={errors?.lastname?.message} id="lastname-error" />
-      </Form.Control>
-
-      <Form.Control className="flex flex-col">
-        <Label htmlFor="middlename">Middle Name / Initial</Label>
-        <Form.Input
-          name="middlename"
-          id="middlename"
-          control={control}
-          type="text"
-          placeholder="Middle Name/Initial"
-          aria-describedby="middlename-error"
-        />
-        <Form.Error message={errors?.middlename?.message} id="middlename-error" />
       </Form.Control>
 
       <Form.Control className="flex flex-col">
