@@ -1,6 +1,7 @@
 import Navbar from "./layout/Navbar";
 import HNavbar from './layout/HNavbar';
 import CarouselSlider from "./layout/CarouselSlider";
+import StoresPage from "@/app/store";
 
 function HomePage() {
   return (
@@ -8,6 +9,7 @@ function HomePage() {
       <Navbar />
       <HNavbar />
       <CarouselSlider />
+      <StoresPage />
     </div>
   );
 }

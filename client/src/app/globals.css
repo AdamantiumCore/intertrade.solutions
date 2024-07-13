@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.grid-container {
+  max-width: 1583px;
+}
+.outerBorder {
+  border: 1px solid #7857e0;
+}
+.storeCardCategory-text {
+  color: #7857e0;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
