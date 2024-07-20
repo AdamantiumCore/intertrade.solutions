@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import * as storeRepository from "../repositories/store.repository.js"
 export const shouldBeLoggedIn = (req, res) => {
     console.log(req.userId);
     const token = req.cookies.token;
@@ -28,4 +29,11 @@ export const shouldBeAdmin = (req, res) => {
     })
 
     res.status(200).json({message: "You are Authenticated!"})
+}
+export const testAllStores = async (req, res) => {  
+    const data = {name: "TestNomer2", addressId: "2c866545-5cc5-45ed-8fac-c7b879577a2a", logo: "htpdsf:dfd", description: ""}
+    //console.log(await storeRepository.createStore(data));
+    console.log(await storeRepository.editStoreById("c8711ec3-b497-4ed1-8269-9e046ff0399e", data))
+    // console.log(await storeRepository.editStoreById(data));
+    console.log(await storeRepository.getAllStores());
 }
