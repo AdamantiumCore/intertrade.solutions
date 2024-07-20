@@ -13,12 +13,12 @@ export const login = async (req, res, next) => {
     return next(new Unauthorized("Invalid Credentials"));
   }
   const user = await userRepository.findUserById(userId);
-  const isPasswordValid = comparePassword(password, user.password);
+  const isPasswordValid = await comparePassword(password, user.password);
   if (!isPasswordValid) {
     return next(new Unauthorized("Invalid Credentials"));
   }
   const token = await generateToken({ sub: userId });
-  return res.cookie("token", token, {httpOnly: true}).status(200).json({message: "Successful Login!"});
+  return res.cookie("token", token, {httpOnly: true}).status(200).json({message: "Successful Login!", isLoggedIn: true});
 };
 
 export const register = async (req, res, next) => {
@@ -72,5 +72,5 @@ export const register = async (req, res, next) => {
       password: hashedPassword,
     };
   await userRepository.addUser(userData);
-  return res.status(201).json({message: "Successful Registered!"});
+  return res.status(201).json({message: "Successful Registered!", isRegistered: true});
 };

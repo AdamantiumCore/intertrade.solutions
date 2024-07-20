@@ -61,6 +61,7 @@ const RegistrationForm = ({
   console.log("FIRST NAME WATCH : ", testWatch);
 
   async function handleFormSubmit(data: any) {
+    //TODO register check with DB
     console.log("SUBMIT FORM ", data);
     setLoginState("Validate");
   }
