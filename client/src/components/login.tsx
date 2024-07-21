@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import axios from "axios";
+import { API_URL } from "@/constants";
 
 import LoginForm from './reg_forms/loginform';
 import ForgotPasswordForm from './reg_forms/forgotPassword';
@@ -29,14 +31,35 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
 
     function handleLogOut() {
         // log out user then:
+        localStorage.removeItem("token");
         setLoginState(states.Login);
     }
 
-    function handleRegistration() {
+    async function handleRegistration(data: any) {
+        var isRegistered = false;
+    await axios.post(`${API_URL}/auth/register`, data)
+    .then(res => {
+      console.log(res.data);
+      if(res.data.isRegistered){
+        isRegistered = true;
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      if(err.response.status == (400 || 401 || 409)){ //we can check for more status codes that we return
+        isRegistered = false;
+      }
+    })
+    if(!isRegistered){
+      setLoginState(states.Register);
+    }
+    else{
+      setLoginState(states.Validate)
+    }
         // save form values and a generated validation code to database
         // email validation code to user
         // present form to enter validation code
-        setLoginState(states.Validate);
+        // setLoginState(states.Validate) when we use user email validation code;
     }
 
     return (
@@ -62,7 +85,7 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
                     <ResetPasswordForm setLoginState={setLoginState} />
                 }
                 {loginState === states.Register &&
-                    <RegistrationForm setLoginState={setLoginState} />
+                    <RegistrationForm setLoginState={setLoginState} handleRegistration={handleRegistration}/>
                 }
                 {loginState === states.Validate &&
                     <ValidateEmailForm setLoginState={setLoginState} />

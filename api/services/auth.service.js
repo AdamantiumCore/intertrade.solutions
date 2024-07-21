@@ -4,7 +4,8 @@ import {comparePassword, hashPassword} from "../utilities/password-utils.js";
 import {generateToken} from "../utilities/jwt-utils.js";
 import {Unauthorized} from "../errors/Unauthorized.js";
 import {Conflict} from "../errors/Conflict.js";
-
+import { generateVerificationCode } from "../utilities/email-utils.js";
+import * as emailService from "../services/email.service.js";
 export const login = async (req, res, next) => {
   const { username, password } = req.body;
   const userId = await userRepository.findUserByUsername(username);
@@ -72,5 +73,10 @@ export const register = async (req, res, next) => {
       password: hashedPassword,
     };
   await userRepository.addUser(userData);
+
+  const verificationCode = generateVerificationCode();
+  console.log(verificationCode)
+  //verification code is sent
+  emailService.sendVerifyUserEmail(userData.email, userData.username, verificationCode);
   return res.status(201).json({message: "Successful Registered!", isRegistered: true});
 };

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { generateVerificationCode } from "../utilities/email-utils.js";
 export const shouldBeLoggedIn = (req, res) => {
     console.log(req.userId);
     const token = req.cookies.token;
@@ -28,4 +29,9 @@ export const shouldBeAdmin = (req, res) => {
     })
 
     res.status(200).json({message: "You are Authenticated!"})
+}
+export const verificationCode = (req, res) => {
+    const code = generateVerificationCode()
+    console.log(code)
+    res.status(200).json({code});
 }
