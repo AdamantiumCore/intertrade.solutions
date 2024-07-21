@@ -12,7 +12,7 @@ export interface RegistrationFormSchema {
   confirmPassword: string;
   email: string;
   phone?: string;
-  avatar_file?: string;
+  avatar?: string;
 }
 
 const RegistrationForm = ({
@@ -30,7 +30,7 @@ const RegistrationForm = ({
     confirmPassword: "",
     email: "",
     phone: "",
-    avatar_file: "",
+    avatar: "",
   };
 
   const registrationSchema: yup.ObjectSchema<RegistrationFormSchema> = yup
@@ -43,7 +43,7 @@ const RegistrationForm = ({
       confirmPassword: yup.string().required("Confirm Password required"),
       email: yup.string().required("Email required"),
       phone: yup.string(),
-      avatar_file: yup.string(),
+      avatar: yup.string(),
     });
 
   const {
@@ -165,10 +165,10 @@ const RegistrationForm = ({
       </Form.Control>
 
       <Form.Control className="flex flex-col">
-        <Label htmlFor="avatar_file">Choose an Avatar</Label>
+        <Label htmlFor="avatar">Choose an Avatar</Label>
         <Form.Input
-          name="avatar_file"
-          id="avatar_file"
+          name="avatar"
+          id="avatar"
           control={control}
           type="file"
           placeholder="Avatar"

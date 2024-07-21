@@ -36,8 +36,11 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
     }
 
     async function handleRegistration(data: any) {
+        const finalData = {firstName: data.firstname,lastName: data.lastname,avatar: data.avatar ,phone: data.phone, email:data.email, username:data.username, password:data.password};
+        console.log(finalData);
+        
         var isRegistered = false;
-    await axios.post(`${API_URL}/auth/register`, data)
+    await axios.post(`${API_URL}/auth/register`, finalData)
     .then(res => {
       console.log(res.data);
       if(res.data.isRegistered){
