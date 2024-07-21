@@ -9,7 +9,7 @@ const sendEmail = (email, subject, template, context) => {
             pass: process.env.EMAIL_PASS
         }
     });
-
+    var __dirname = "";
     let mailOptions = {
         from: process.env.EMAIL_FROM,
         to: email,
