@@ -12,13 +12,13 @@ model Users {
   lastName   String             @db.VarChar(50)
   middle     String?            @db.VarChar(50)
   avatar     String?            @db.VarChar(500)
-  addressID  String             @default(uuid()) @unique
-  address    Addresses          @relation(fields: [addressID], references: [id])
+  addressID  String?             @default(uuid()) @unique
+  address    Addresses?          @relation(fields: [addressID], references: [id])
   phone      String?            @db.VarChar(20)
   email      String             @db.VarChar(255) @unique
   username   String             @db.VarChar(255) @unique
   password   String             @db.VarChar(255)
-  validation_code String        @db.VarChar(255)
+  validation_code String?        @db.VarChar(255)
   isValidated Boolean           @default(false)
   created    DateTime           @default(now())
   modified   DateTime           @updatedAt
@@ -52,8 +52,8 @@ model Addresses {
 model Stores {
   id          String            @id @default(uuid()) @unique
   name        String            @db.VarChar(500) @unique
-  address     Addresses         @relation(fields: [addressId], references: [id]) // relation
-  addressId   String            @default(uuid()) @unique
+  address     Addresses?         @relation(fields: [addressId], references: [id]) // relation
+  addressId   String?            @default(uuid()) @unique
   logo        String?           @db.VarChar(500)
   tagline     String?           @db.VarChar(500)
   description String?           @db.VarChar(8000)

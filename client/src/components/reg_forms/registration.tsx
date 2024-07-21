@@ -3,6 +3,8 @@ import Label from "../ui/Label";
 import Link from "../ui/Link";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
+import axios from "axios";
+import { API_URL } from "@/constants";
 
 export interface RegistrationFormSchema {
   firstname: string;
@@ -59,11 +61,28 @@ const RegistrationForm = ({
 
   const testWatch = watch("firstname");
   console.log("FIRST NAME WATCH : ", testWatch);
-
   async function handleFormSubmit(data: any) {
     //TODO register check with DB
-    console.log("SUBMIT FORM ", data);
-    setLoginState("Validate");
+    var isRegistered = false;
+    await axios.post(`${API_URL}/auth/register`, data)
+    .then(res => {
+      console.log(res.data);
+      if(res.data.isRegistered){
+        isRegistered = true;
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      if(err.response.status == (400 || 401 || 409)){ //we can check for more status codes that we return
+        isRegistered = false;
+      }
+    })
+    if(!isRegistered){
+      setLoginState("Register");
+    }
+    else{
+      setLoginState("Login")
+    }
   }
 
   // TODO: Setup Error fields
