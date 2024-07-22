@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import * as storeRepository from "../repositories/store.repository.js"
+import * as productsRepository from "../repositories/product.repository.js";
 export const shouldBeLoggedIn = (req, res) => {
     console.log(req.userId);
     const token = req.cookies.token;
@@ -36,4 +37,8 @@ export const testAllStores = async (req, res) => {
     console.log(await storeRepository.editStoreById("c8711ec3-b497-4ed1-8269-9e046ff0399e", data))
     // console.log(await storeRepository.editStoreById(data));
     console.log(await storeRepository.getAllStores());
+export const allProducts = async (req, res) => {
+    const data = {name: "Bear2", price: 55.00, storeId: "c8711ec3-b497-4ed1-8269-9e046ff0399e"}
+    await productsRepository.editProductById("5c36a1a4-9765-49b4-afe1-151adae8d759", data)
+    console.log(await productsRepository.getAllProducts())
 }

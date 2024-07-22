@@ -32,3 +32,22 @@ export const getProductById = async (id) => {
     }
   })
 }
+export const getAllProducts = async () => { //list
+  return await prisma.products.findMany();
+}
+export const createProduct = async (data) => { //create
+  return await prisma.products.create({
+    data
+  })
+}
+export const editProductById = async (id, newProduct) => { //edit
+  return await prisma.products.update({
+    where: {id},
+    data: newProduct
+  })
+}
+export const deleteProductById = async (id) => { //delete
+  await prisma.products.delete({
+    where: {id}
+  })
+}
