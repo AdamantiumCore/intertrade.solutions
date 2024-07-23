@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 const sendEmail = (email, subject, template, context) => {
     let transporter = nodemailer.createTransport({
-        host: process.env.HOST,
-        port: process.env.PORT || 8000,
+        host: 'smtp.gmail.com',//the error is comming from the host
+        port: 465,
         secure: true,
         auth: {
             user: process.env.EMAIL_USER,
@@ -14,13 +14,14 @@ const sendEmail = (email, subject, template, context) => {
         from: process.env.EMAIL_FROM,
         to: email,
         subject: subject,
-        attachments: [{
-            filename: 'logo.png',
-            path: __dirname + '/../views/layouts/logo.png',
-            cid: 'logo'
-        }],
-        template: template,
-        ctx: context
+        text: "TEXTT"
+        // attachments: [{
+        //     filename: 'logo.png',
+        //     path: __dirname + '/../views/layouts/logo.png',
+        //     cid: 'logo'
+        // }],
+        // template: template,
+        // ctx: context
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
