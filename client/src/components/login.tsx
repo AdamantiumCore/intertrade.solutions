@@ -9,10 +9,6 @@ import ForgotPasswordForm from './reg_forms/forgotPassword';
 import ResetPasswordForm from './reg_forms/resetPassword';
 import RegistrationForm from './reg_forms/registration';
 import ValidateEmailForm from './reg_forms/validateEmail';
-
-import Image from 'next/image';
-import no_image from '../assets/no_image.png';
-
 const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
     const states = {
         LoggedIn: "LoggedIn",
@@ -29,10 +25,22 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
         setLoginState(states.Login);
     }, [reset]);
 
-    function handleLogOut() {
+    async function handleLogOut() {
         // log out user then:
-        localStorage.removeItem("token");
-        setLoginState(states.Login);
+        await axios.post(`${API_URL}/auth/logout`, {} , { withCredentials: true })
+        .then(res => {
+            console.log(res)
+            if(res.status == 200){
+                setLoginState(states.Login); 
+            }else{
+                setLoginState(states.Validate)
+            } 
+            
+        })
+        .catch(err => {
+            setLoginState(states.Validate)
+        })
+        
     }
 
     async function handleRegistration(data: any) {
@@ -94,9 +102,9 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
                     <ValidateEmailForm setLoginState={setLoginState} />
                 }
             </div>
-            <div className="flex-1 hidden sm:inline">
+            {/* <div className="flex-1 hidden sm:inline">
                 <Image alt="No Image" src={no_image} className="w-[1024px] h-[1024pxobject-cover" />
-            </div>
+            </div> */}
         </div>
     );
 }

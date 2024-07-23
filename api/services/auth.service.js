@@ -19,8 +19,8 @@ export const login = async (req, res, next) => {
     return next(new Unauthorized("Invalid Credentials"));
   }
   const token = await generateToken({ sub: userId });
-  return res.cookie("token", token, {httpOnly: true}).status(200).json({message: "Successful Login!", isLoggedIn: true});
-};
+  return res.cookie("token", token, {httpOnly: false}).status(200).json({message: "Successful Login!", isLoggedIn: true});
+};//if we set: httpOnly: true, we cannot access the value from the FE
 
 export const register = async (req, res, next) => {
   const {

@@ -9,5 +9,6 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token").status(200).json({message: "Successful Logout"});
+  console.log("Colliiee")
+  res.clearCookie("token", {path:'/'}).status(200).json({message: "Successful Logout"});
 };
