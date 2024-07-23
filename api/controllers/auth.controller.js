@@ -12,3 +12,7 @@ export const logout = (req, res) => {
   console.log("Colliiee")
   res.clearCookie("token", {path:'/'}).status(200).json({message: "Successful Logout"});
 };
+
+export const validateUserCode = async (req ,res) => {
+  return await authService.validateUserCode(req, res);
+}

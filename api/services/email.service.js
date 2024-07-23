@@ -1,7 +1,8 @@
+import { text } from "express";
 import nodemailer from "nodemailer";
 const sendEmail = (email, subject, template, context) => {
     let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',//the error is comming from the host
+        host: 'server200.web-hosting.com',//the error is comming from the host
         port: 465,
         secure: true,
         auth: {
@@ -14,14 +15,14 @@ const sendEmail = (email, subject, template, context) => {
         from: process.env.EMAIL_FROM,
         to: email,
         subject: subject,
-        text: "TEXTT"
+        text: `Your verification code is ${context.verificationCode}`,
         // attachments: [{
         //     filename: 'logo.png',
         //     path: __dirname + '/../views/layouts/logo.png',
         //     cid: 'logo'
         // }],
-        // template: template,
-        // ctx: context
+        template: template,
+        ctx: context
     };
 
     transporter.sendMail(mailOptions, function(error, info) {

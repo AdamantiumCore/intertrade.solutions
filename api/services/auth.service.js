@@ -61,6 +61,9 @@ export const register = async (req, res, next) => {
 
   const hashedPassword = await hashPassword(password, 10);
   const newAddress = await addressService.addAddress(addressData);
+
+  const verificationCode = generateVerificationCode();
+
   const userData = {
       firstName,
       lastName,
@@ -71,12 +74,19 @@ export const register = async (req, res, next) => {
       email,
       username,
       password: hashedPassword,
+      validation_code: verificationCode.toString(),
     };
-  await userRepository.addUser(userData);
-
-  const verificationCode = generateVerificationCode();
-  console.log(verificationCode)
+  const user = await userRepository.addUser(userData);
   //verification code is sent
   emailService.sendVerifyUserEmail(userData.email, userData.username, verificationCode);
-  return res.status(201).json({message: "Successful Registered!", isRegistered: true});
+  return res.cookie("ValidationToken", user.id, {httpOnly: false}).status(201).json({message: "Successful Registered!", isRegistered: true});
 };
+export const validateUserCode = async (req, res) => {
+   const { validation_code, userId } = req.body;
+   const validationCode = await userRepository.getUserValidationCodeByUserId(userId)
+   if(validationCode === validation_code){
+      await userRepository.ValidateUserById(userId);
+      return res.status(200).json({isValidated: true})
+   }
+   res.status(400).json({isValidated: false})
+}

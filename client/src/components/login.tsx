@@ -48,7 +48,7 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
         console.log(finalData);
         
         var isRegistered = false;
-    await axios.post(`${API_URL}/auth/register`, finalData)
+    await axios.post(`${API_URL}/auth/register`, finalData, { withCredentials: true })
     .then(res => {
       console.log(res.data);
       if(res.data.isRegistered){
