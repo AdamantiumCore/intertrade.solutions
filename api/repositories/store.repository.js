@@ -28,3 +28,22 @@ export const getStoreById = async (id) => {
     }
   })
 }
+export const getAllStores = async () => { //list
+  return await prisma.stores.findMany();
+}
+export const createStore = async (data) => { //create
+  return await prisma.stores.create({
+    data
+  })
+}
+export const editStoreById = async (id, newStore) => { //edit
+  return await prisma.stores.update({
+    where: {id},
+    data: newStore
+  })
+}
+export const deleteStoreById = async (id) => { //delete
+  await prisma.stores.delete({
+    where: {id}
+  })
+}
