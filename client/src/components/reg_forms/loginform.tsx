@@ -3,6 +3,8 @@ import Label from "../ui/Label";
 import Link from "../ui/Link";
 import Button from "../ui/Button";
 import { useForm, yup } from "@/lib/hooks/form/use-form";
+import axios from "axios";
+import { API_URL } from "@/constants";
 
 export interface LoginFormSchema {
   username: string;
@@ -14,12 +16,28 @@ const LoginForm = ({
 }: Readonly<{
   setLoginState: any;
 }>) => {
-  function handleLogin() {
+  async function handleLogin(data: any) {
     // compare login info with database values
+    var isLoggedId = false;
+    const loginData = {username: data.username, password: data.password}
+    await axios.post(`${API_URL}/auth/login`, loginData, { withCredentials: true })
+    .then(res => {
+      console.log(res);
+      isLoggedId = res.data?.isLoggedIn;
+    })
+    .catch(err => {
+      console.log(err)
+      if(err.response.status == 401){
+        isLoggedId = false;
+      }
+      //TODO: inform user for invalid data maybe
+    });
     // on success, close form
-
-    // if validated in database then:
-    setLoginState("LoggedIn");
+    if(isLoggedId){
+      setLoginState("LoggedIn");
+    }else{
+      setLoginState("Login");
+    }
   }
 
   const loginFormDefaultVals = {
@@ -57,7 +75,7 @@ const LoginForm = ({
 
   async function handleFormSubmit(data: any) {
     console.log("SUBMIT LOGIN FORM ", data);
-    handleLogin();
+    handleLogin(data);
   }
 
   return (

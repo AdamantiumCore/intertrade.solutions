@@ -39,6 +39,7 @@
     "dotenv-cli": "^7.4.2",
     "jest": "^29.7.0",
     "nodemon": "^3.1.2",
+    "prisma": "^5.17.0",
     "supertest": "^7.0.0"
   }
 }

@@ -43,3 +43,13 @@ export const deleteUser = async (userId) => {
   })
 }
 //END user crud Operations
+export const getUserValidationCodeByUserId = async (userId) => {
+  const user = await findUserById(userId)
+  return user?.validation_code;
+}
+export const ValidateUserById = async (userId) => {
+  await prisma.users.update({
+    where:{id: userId},
+    data:{isValidated: true}
+  })
+}

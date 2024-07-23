@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-
+export const API_URL = "http://localhost:8000/api/v1"
 export interface HNavLink {
     label: string;
     url: string;

@@ -9,7 +9,8 @@ import {globalErrorHandler} from "./middleware/globalErrorHandler.js";
 
 const app = express();
 const corsOptions = {
-    origin: process.env.CORS_URL
+    origin: process.env.CORS_URL,
+    credentials: true
   }
   
 app.use(express.json())

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { generateVerificationCode } from "../utilities/email-utils.js";
 import * as storeRepository from "../repositories/store.repository.js"
 import * as productsRepository from "../repositories/product.repository.js";
 export const shouldBeLoggedIn = (req, res) => {
@@ -31,6 +32,10 @@ export const shouldBeAdmin = (req, res) => {
 
     res.status(200).json({message: "You are Authenticated!"})
 }
+export const verificationCode = (req, res) => {
+    const code = generateVerificationCode()
+    console.log(code)
+    res.status(200).json({code});
 export const testAllStores = async (req, res) => {  
     const data = {name: "TestNomer2", addressId: "2c866545-5cc5-45ed-8fac-c7b879577a2a", logo: "htpdsf:dfd", description: ""}
     //console.log(await storeRepository.createStore(data));
