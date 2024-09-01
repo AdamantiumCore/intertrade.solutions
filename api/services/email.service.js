@@ -1,24 +1,26 @@
+import { text } from "express";
 import nodemailer from "nodemailer";
 const sendEmail = (email, subject, template, context) => {
     let transporter = nodemailer.createTransport({
-        host: process.env.HOST,
-        port: process.env.PORT || 8000,
+        host: 'server200.web-hosting.com',//the error is comming from the host
+        port: 465,
         secure: true,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         }
     });
-
+    var __dirname = "";
     let mailOptions = {
         from: process.env.EMAIL_FROM,
         to: email,
         subject: subject,
-        attachments: [{
-            filename: 'logo.png',
-            path: __dirname + '/../views/layouts/logo.png',
-            cid: 'logo'
-        }],
+        text: `Your verification code is ${context.verificationCode}`,
+        // attachments: [{
+        //     filename: 'logo.png',
+        //     path: __dirname + '/../views/layouts/logo.png',
+        //     cid: 'logo'
+        // }],
         template: template,
         ctx: context
     };

@@ -1,16 +1,14 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import axios from "axios";
+import { API_URL } from "@/constants";
 
 import LoginForm from './reg_forms/loginform';
 import ForgotPasswordForm from './reg_forms/forgotPassword';
 import ResetPasswordForm from './reg_forms/resetPassword';
 import RegistrationForm from './reg_forms/registration';
 import ValidateEmailForm from './reg_forms/validateEmail';
-
-import Image from 'next/image';
-import no_image from '../assets/no_image.png';
-
 const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
     const states = {
         LoggedIn: "LoggedIn",
@@ -27,16 +25,52 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
         setLoginState(states.Login);
     }, [reset]);
 
-    function handleLogOut() {
+    async function handleLogOut() {
         // log out user then:
-        setLoginState(states.Login);
+        await axios.post(`${API_URL}/auth/logout`, {} , { withCredentials: true })
+        .then(res => {
+            console.log(res)
+            if(res.status == 200){
+                setLoginState(states.Login); 
+            }else{
+                setLoginState(states.Validate)
+            } 
+            
+        })
+        .catch(err => {
+            setLoginState(states.Validate)
+        })
+        
     }
 
-    function handleRegistration() {
+    async function handleRegistration(data: any) {
+        const finalData = {firstName: data.firstname,lastName: data.lastname,avatar: data.avatar ,phone: data.phone, email:data.email, username:data.username, password:data.password};
+        console.log(finalData);
+        
+        var isRegistered = false;
+    await axios.post(`${API_URL}/auth/register`, finalData, { withCredentials: true })
+    .then(res => {
+      console.log(res.data);
+      if(res.data.isRegistered){
+        isRegistered = true;
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      if(err.response.status == (400 || 401 || 409)){ //we can check for more status codes that we return
+        isRegistered = false;
+      }
+    })
+    if(!isRegistered){
+      setLoginState(states.Register);
+    }
+    else{
+      setLoginState(states.Validate)
+    }
         // save form values and a generated validation code to database
         // email validation code to user
         // present form to enter validation code
-        setLoginState(states.Validate);
+        // setLoginState(states.Validate) when we use user email validation code;
     }
 
     return (
@@ -62,15 +96,15 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
                     <ResetPasswordForm setLoginState={setLoginState} />
                 }
                 {loginState === states.Register &&
-                    <RegistrationForm setLoginState={setLoginState} />
+                    <RegistrationForm setLoginState={setLoginState} handleRegistration={handleRegistration}/>
                 }
                 {loginState === states.Validate &&
                     <ValidateEmailForm setLoginState={setLoginState} />
                 }
             </div>
-            <div className="flex-1 hidden sm:inline">
+            {/* <div className="flex-1 hidden sm:inline">
                 <Image alt="No Image" src={no_image} className="w-[1024px] h-[1024pxobject-cover" />
-            </div>
+            </div> */}
         </div>
     );
 }
