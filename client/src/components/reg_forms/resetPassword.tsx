@@ -55,7 +55,7 @@ const ResetPasswordForm = ({ setLoginState }: Readonly<{
     return (
         <Form
             onSubmit={handleSubmit(handleFormSubmit)}
-            className="flex flex-col items-center gap-10"
+            className="flex flex-col items-center gap-5"
         >
             <Form.Control className="flex flex-col">
                 <Label htmlFor="tempPassword">Temp Password</Label>
