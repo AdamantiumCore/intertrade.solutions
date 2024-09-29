@@ -8,11 +8,11 @@
 This application is a representation of an e-commerce platform similar to Amazon, built with Node.js and React TypeScript. <br /> 
 # Closed Collaborative Project
 intertrade.solutions is an international storefront e-commerce site project <br /> 
-## Features
-• User authentication and authorization <br /> 
-• Product browsing and searching <br /> 
-• Shopping cart functionality <br /> 
-• Order management <br /> 
+🔧 Features
+✨ User authentication and authorization <br /> 
+🛍️ Product browsing and searching <br /> 
+🛒 Shopping cart functionality <br /> 
+📦 Order management <br /> 
 ## Tech Stack
 React-TS, NextJS, Node.js, MySQL, Prisma, TailwindCSS, SASS
 
