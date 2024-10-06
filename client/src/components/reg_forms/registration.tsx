@@ -70,7 +70,7 @@ const RegistrationForm = ({
   return (
     <Form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="flex flex-col items-center gap-10"
+      className="flex flex-col items-center gap-5"
     >
       <h2 className="w-fit text-2xl font-semibold">Sign Up</h2>
 
@@ -164,7 +164,7 @@ const RegistrationForm = ({
         {/* <Form.Error message={errors?.password?.message} id="password-error" /> */}
       </Form.Control>
 
-      <Form.Control className="flex flex-col">
+      {/* <Form.Control className="flex flex-col">
         <Label htmlFor="avatar">Choose an Avatar</Label>
         <Form.Input
           name="avatar"
@@ -174,7 +174,7 @@ const RegistrationForm = ({
           placeholder="Avatar"
           // className="w-3/4 rounded-md border-2 border-solid border-gray-600 p-5"
         />
-      </Form.Control>
+      </Form.Control> */}
 
       <Button type="submit">Submit</Button>
       <Link href="#" onClick={() => setLoginState("Login")}>

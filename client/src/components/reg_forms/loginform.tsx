@@ -81,7 +81,7 @@ const LoginForm = ({
   return (
     <Form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="flex flex-col items-center gap-10"
+      className="flex flex-col items-center gap-5"
     >
       <h2 className="w-max text-2xl font-semibold">Sign In</h2>
 
