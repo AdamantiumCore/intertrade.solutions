@@ -63,7 +63,7 @@ function Carousel() {
 
     if (Math.abs(prevIdx - currIdx) === p.length - 1) {
       slideContainerRef.current!.style.transform = `translateX(-${(currIdx + 1) * 100}%)`;
-      if (!autoplayTimerRef.current) setAutoplay(1000);
+      if (!autoplayTimerRef.current) setAutoplay(3000);
     } else {
       slideContainerRef.current!.classList.replace(
         "duration-0",
@@ -71,7 +71,7 @@ function Carousel() {
       );
       slideContainerRef.current!.style.transform = `translateX(-${(currIdx + 1) * 100}%)`;
     }
-    if (!autoplayTimerRef.current) setAutoplay(2000);
+    if (!autoplayTimerRef.current) setAutoplay(3000);
   }, [indecies]);
 
   return (
