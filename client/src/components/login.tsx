@@ -57,7 +57,7 @@ const Login = ({ reset }: Readonly<{ reset: boolean }>) => {
     })
     .catch(err => {
       console.log(err)
-      if(err.response.status == (400 || 401 || 409)){ //we can check for more status codes that we return
+      if(err.response.status == 400 || err.response.status == 401 || err.response.status == 409){ //we can check for more status codes that we return
         isRegistered = false;
       }
     })
