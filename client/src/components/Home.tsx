@@ -5,6 +5,7 @@ import CarouselSlider from "./layout/CarouselSlider";
 import StoresPage from "@/app/store";
 import { useEffect } from "react";
 import { Cookies } from "react-cookie"
+import Footer from "./layout/Footer";
 function HomePage() {
   useEffect(() => {
     const cookies = new Cookies();
@@ -20,6 +21,7 @@ function HomePage() {
       <HNavbar />
       <CarouselSlider />
       <StoresPage />
+      <Footer />
     </div>
   );
 }
